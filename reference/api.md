@@ -2,6 +2,8 @@
 
 The static site reads published replay results. The Python service computes the same results for a new sequence of synthetic records on the caller's machine. A provider adapter would map authorised telemetry to the reviewed schema inside the client environment. Each call is stateless and covers one bearer token, one synthetic subject, one ordered sequence and at most 32 events.
 
+For observation-by-observation processing, the [streaming detector](stream.md) accepts interleaved synthetic subjects and emits an alert immediately when independent evidence moves a case into High.
+
 ## Start the service
 
 Use Python 3.9 or later. The reference API and topic model use the standard library. Run both lines in the same terminal at the repository root. The randomly generated token stays in the current shell environment. Stop the service with Ctrl+C.
