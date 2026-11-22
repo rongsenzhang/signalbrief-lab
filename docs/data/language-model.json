@@ -1,8 +1,262 @@
 {
   "schema_version": 1,
-  "status": "not_run",
+  "status": "ready",
   "model_id": "HuggingFaceTB/SmolLM2-135M-Instruct",
   "revision": "12fd25f77366fa6b3b4b768ec3050bf629380bac",
   "method": "Two deterministic letter choices in opposite candidate orders",
-  "scenarios": {}
+  "runtime": {
+    "engine": "PyTorch CPU",
+    "torch": "2.6.0+cpu",
+    "transformers": "4.51.3",
+    "precision": "float32",
+    "sampling": "greedy"
+  },
+  "protocol_version": "evidence-choice/1",
+  "input_sha256": "d6b00eeb329487548b76518559e89ab69719faecf7c0bcc0b6afa538e13c4979",
+  "scenarios": {
+    "SB-101": [
+      {
+        "event_ids": [
+          "E1011"
+        ],
+        "selected_id": null,
+        "extract": null,
+        "outcome": "model abstained",
+        "responses": [
+          "X",
+          "X"
+        ]
+      },
+      {
+        "event_ids": [
+          "E1011",
+          "E1012"
+        ],
+        "selected_id": null,
+        "extract": null,
+        "outcome": "invalid response",
+        "responses": [
+          "X: Insufficient",
+          "X: Insufficient"
+        ]
+      },
+      {
+        "event_ids": [
+          "E1011",
+          "E1012",
+          "E1013"
+        ],
+        "selected_id": null,
+        "extract": null,
+        "outcome": "invalid response",
+        "responses": [
+          "X: Insufficient",
+          "X: Insufficient"
+        ]
+      }
+    ],
+    "SB-102": [
+      {
+        "event_ids": [
+          "E1021"
+        ],
+        "selected_id": null,
+        "extract": null,
+        "outcome": "model abstained",
+        "responses": [
+          "X",
+          "X"
+        ]
+      },
+      {
+        "event_ids": [
+          "E1021",
+          "E1022"
+        ],
+        "selected_id": null,
+        "extract": null,
+        "outcome": "invalid response",
+        "responses": [
+          "X: Insufficient",
+          "X: Insufficient"
+        ]
+      },
+      {
+        "event_ids": [
+          "E1021",
+          "E1022",
+          "E1023"
+        ],
+        "selected_id": null,
+        "extract": null,
+        "outcome": "invalid response",
+        "responses": [
+          "X: Insufficient",
+          "X: Insufficient"
+        ]
+      }
+    ],
+    "SB-103": [
+      {
+        "event_ids": [
+          "E1031"
+        ],
+        "selected_id": null,
+        "extract": null,
+        "outcome": "invalid response",
+        "responses": [
+          "X: Insufficient",
+          "X: Insufficient"
+        ]
+      },
+      {
+        "event_ids": [
+          "E1031",
+          "E1032"
+        ],
+        "selected_id": null,
+        "extract": null,
+        "outcome": "invalid response",
+        "responses": [
+          "X: Insufficient",
+          "X: Insufficient"
+        ]
+      }
+    ],
+    "SB-104": [
+      {
+        "event_ids": [
+          "E1041"
+        ],
+        "selected_id": null,
+        "extract": null,
+        "outcome": "model abstained",
+        "responses": [
+          "X",
+          "X"
+        ]
+      },
+      {
+        "event_ids": [
+          "E1041",
+          "E1042"
+        ],
+        "selected_id": null,
+        "extract": null,
+        "outcome": "invalid response",
+        "responses": [
+          "X: Insufficient",
+          "X: Insufficient"
+        ]
+      },
+      {
+        "event_ids": [
+          "E1041",
+          "E1042",
+          "E1043"
+        ],
+        "selected_id": null,
+        "extract": null,
+        "outcome": "invalid response",
+        "responses": [
+          "X: Insufficient",
+          "X: Insufficient"
+        ]
+      }
+    ],
+    "SB-105": [
+      {
+        "event_ids": [
+          "E1051"
+        ],
+        "selected_id": null,
+        "extract": null,
+        "outcome": "invalid response",
+        "responses": [
+          "X: Insufficient",
+          "X: Insufficient"
+        ]
+      },
+      {
+        "event_ids": [
+          "E1051",
+          "E1052"
+        ],
+        "selected_id": null,
+        "extract": null,
+        "outcome": "invalid response",
+        "responses": [
+          "X: Insufficient",
+          "X: Insufficient"
+        ]
+      },
+      {
+        "event_ids": [
+          "E1051",
+          "E1052",
+          "E1053"
+        ],
+        "selected_id": null,
+        "extract": null,
+        "outcome": "invalid response",
+        "responses": [
+          "X: Insufficient",
+          "X: Insufficient"
+        ]
+      }
+    ],
+    "SB-106": [
+      {
+        "event_ids": [
+          "E1061"
+        ],
+        "selected_id": null,
+        "extract": null,
+        "outcome": "invalid response",
+        "responses": [
+          "X: Feed monitor",
+          "X: Feed monitor"
+        ]
+      },
+      {
+        "event_ids": [
+          "E1061",
+          "E1062"
+        ],
+        "selected_id": null,
+        "extract": null,
+        "outcome": "invalid response",
+        "responses": [
+          "X: Insufficient",
+          "X: Insufficient"
+        ]
+      },
+      {
+        "event_ids": [
+          "E1061",
+          "E1062",
+          "E1063"
+        ],
+        "selected_id": null,
+        "extract": null,
+        "outcome": "invalid response",
+        "responses": [
+          "X: Insufficient",
+          "X: Insufficient"
+        ]
+      }
+    ]
+  },
+  "evaluation": {
+    "frames": 17,
+    "selected": 0,
+    "among_rule_citations": 0,
+    "multi_event_frames": 11,
+    "multi_event_selected": 0,
+    "multi_event_matches": 0,
+    "most_recent_matches": 10,
+    "model_abstained": 3,
+    "invalid_response": 14,
+    "unstable_order": 0
+  }
 }
