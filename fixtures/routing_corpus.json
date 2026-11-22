@@ -1,0 +1,155 @@
+{
+  "schema": "routing-corpus/1",
+  "train": {
+    "Identity": [
+      "Authentication gateway refused the account sign-in request.",
+      "Account sign-in was accepted for a new session.",
+      "Directory recorded an unsuccessful login.",
+      "Account holder has raised a query about their access.",
+      "Identity check recorded a refused authentication request.",
+      "User recognised the recently opened session.",
+      "Service desk confirmed the user recognises the login.",
+      "Several sign-in requests were declined for the account.",
+      "User cannot recognise the session on the account.",
+      "Authentication report lists a new login for an identity.",
+      "Access gateway recorded a rejected request.",
+      "Owner queried the recent sign-in."
+    ],
+    "Endpoint": [
+      "Endpoint protection blocked a process on a workstation.",
+      "Device sensor recorded a process observation.",
+      "A workstation protection alert was raised.",
+      "Process control prevented an application from running.",
+      "Inventory recorded a matching application observation for the device.",
+      "Endpoint policy denied execution of an application.",
+      "Device health agent saw the process again.",
+      "Host sensor confirmed an application was blocked.",
+      "The workstation reported a policy alert.",
+      "A device protection event requires checking.",
+      "Application activity on the host continued.",
+      "Endpoint inventory lists an updated device observation."
+    ],
+    "Service continuity": [
+      "Backup scheduler marked the recovery copy late.",
+      "A restore exercise verified the recovery copy.",
+      "Storage monitor recorded an overdue backup.",
+      "Continuity monitor reported a missing restore point.",
+      "The scheduled recovery checkpoint completed successfully.",
+      "The backup cycle has missed its window.",
+      "A restore check could not find a copy for this period.",
+      "The service recovery check succeeded.",
+      "Backup job returned to its scheduled cycle.",
+      "A late copy was reported by the backup scheduler.",
+      "The continuity service has verified a usable recovery point.",
+      "The restore exercise is unconfirmed."
+    ],
+    "Telemetry": [
+      "Collector reported a gap in telemetry.",
+      "Monitoring feed has stopped reporting.",
+      "Event records are missing from the feed.",
+      "Sensor heartbeat arrived on schedule.",
+      "The observer has no new records.",
+      "Monitoring coverage is incomplete.",
+      "A telemetry heartbeat was restored.",
+      "Collector cannot confirm source availability.",
+      "The operational feed has resumed reporting.",
+      "Observer recorded a missing heartbeat.",
+      "The monitoring feed is unavailable.",
+      "Audit collector has a delayed batch."
+    ]
+  },
+  "holdout_groups": {
+    "Identity": {
+      "credential-check": [
+        "An account check ended with refused credentials.",
+        "A user disputed an unfamiliar login."
+      ],
+      "account-ownership": [
+        "The owner verified access on their session.",
+        "A colleague recognised their sign-in."
+      ],
+      "identity-paraphrase": [
+        "Directory access was refused again.",
+        "The account holder called about an access anomaly."
+      ]
+    },
+    "Endpoint": {
+      "device-policy": [
+        "A workstation control prevented the same binary.",
+        "Inventory flagged unexpected workstation activity."
+      ],
+      "host-observation": [
+        "An endpoint observer saw the application return.",
+        "Our desktop protection stopped an application."
+      ],
+      "endpoint-paraphrase": [
+        "The laptop has an unexpected process.",
+        "A device flagged a newly launched executable."
+      ]
+    },
+    "Service continuity": {
+      "continuity-policy": [
+        "The recovery checkpoint passed the new exercise.",
+        "The restore verification missed its window."
+      ],
+      "copy-validation": [
+        "An overdue backup is awaiting verification.",
+        "The latest storage copy was late."
+      ],
+      "continuity-paraphrase": [
+        "No usable recovery point is confirmed yet.",
+        "The service backup was delayed by its job queue."
+      ]
+    },
+    "Telemetry": {
+      "coverage-loss": [
+        "The collector stopped delivering records.",
+        "Monitoring coverage was interrupted."
+      ],
+      "collection-resumption": [
+        "The missing heartbeat arrived late.",
+        "The feed observer received new records."
+      ],
+      "telemetry-paraphrase": [
+        "The feed stopped updating earlier today.",
+        "There is a gap in collection."
+      ]
+    }
+  },
+  "challenge": [
+    {
+      "text": "Something unusual happened.",
+      "expected": "Uncertain"
+    },
+    {
+      "text": "Review requested.",
+      "expected": "Uncertain"
+    },
+    {
+      "text": "A message arrived.",
+      "expected": "Uncertain"
+    },
+    {
+      "text": "State changed.",
+      "expected": "Uncertain"
+    }
+  ],
+  "mixed_topic_probes": [
+    {
+      "text": "The backup agent lost its heartbeat.",
+      "expected": "Telemetry"
+    },
+    {
+      "text": "Access monitor lost its heartbeat.",
+      "expected": "Telemetry"
+    },
+    {
+      "text": "Device reported its user recognised a new sign-in.",
+      "expected": "Identity"
+    },
+    {
+      "text": "The monitoring agent saw a process returned on a workstation.",
+      "expected": "Endpoint"
+    }
+  ]
+}

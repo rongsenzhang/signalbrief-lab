@@ -1,0 +1,15 @@
+{
+  "access_declined": ["Access gateway", "Several sign-in requests for the example account were declined."],
+  "session_opened": ["Identity provider", "A new sign-in session was accepted for the same example account."],
+  "owner_disputes": ["Service desk", "The account owner reported that they did not recognise this sign-in session."],
+  "owner_confirms": ["Service desk", "The account owner confirmed that they recognised this sign-in session."],
+  "endpoint_block": ["Endpoint control", "Protection on the example workstation blocked an application process."],
+  "process_observed": ["Device inventory", "A separate inventory check observed the same application process running on the workstation."],
+  "endpoint_note": ["Endpoint control", "The workstation policy recorded a second blocked application event."],
+  "backup_late": ["Backup scheduler", "The example service's scheduled backup missed its usual recovery window."],
+  "restore_pending": ["Recovery desk", "The restore verification has no result for the delayed backup."],
+  "restore_verified": ["Restore verifier", "An independent restore exercise verified a usable copy for this recovery window."],
+  "monitor_gap": ["Feed monitor", "The alert collector reported a gap in telemetry for the example service."],
+  "vague_notice": ["Support queue", "Review requested."],
+  "feed_resumed": ["Feed monitor", "The monitoring feed resumed reporting after the gap."]
+}

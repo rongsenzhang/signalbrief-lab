@@ -1,0 +1,102 @@
+[
+  {
+    "id": "SB-101",
+    "title": "Unrecognised sign-in",
+    "service": "Staff access",
+    "description": "Review access records for a single staff account.",
+    "signals": [
+      "access_declined",
+      "session_opened",
+      "owner_disputes"
+    ],
+    "minutes": [
+      0,
+      3,
+      7
+    ],
+    "hour": 9
+  },
+  {
+    "id": "SB-102",
+    "title": "Workstation policy alert",
+    "service": "Managed endpoints",
+    "description": "Review observations linked to one managed workstation.",
+    "signals": [
+      "endpoint_block",
+      "endpoint_note",
+      "process_observed"
+    ],
+    "minutes": [
+      0,
+      3,
+      9
+    ],
+    "hour": 10
+  },
+  {
+    "id": "SB-103",
+    "title": "Recovery window review",
+    "service": "Backup operations",
+    "description": "Check the available records for a scheduled recovery copy.",
+    "signals": [
+      "backup_late",
+      "restore_pending"
+    ],
+    "minutes": [
+      0,
+      11
+    ],
+    "hour": 11
+  },
+  {
+    "id": "SB-104",
+    "title": "Staff account access check",
+    "service": "Staff access",
+    "description": "Review a separate access case for a staff account.",
+    "signals": [
+      "access_declined",
+      "session_opened",
+      "owner_confirms"
+    ],
+    "minutes": [
+      0,
+      2,
+      6
+    ],
+    "hour": 13
+  },
+  {
+    "id": "SB-105",
+    "title": "Backup window review",
+    "service": "Backup operations",
+    "description": "Review the assurance records for a scheduled backup.",
+    "signals": [
+      "backup_late",
+      "restore_pending",
+      "restore_verified"
+    ],
+    "minutes": [
+      0,
+      3,
+      12
+    ],
+    "hour": 14
+  },
+  {
+    "id": "SB-106",
+    "title": "Monitoring coverage check",
+    "service": "Service assurance",
+    "description": "Assess the available evidence for a service monitoring feed.",
+    "signals": [
+      "monitor_gap",
+      "vague_notice",
+      "feed_resumed"
+    ],
+    "minutes": [
+      0,
+      2,
+      12
+    ],
+    "hour": 15
+  }
+]
