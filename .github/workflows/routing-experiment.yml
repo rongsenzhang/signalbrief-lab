@@ -1,0 +1,38 @@
+name: Frozen LLM topic-routing comparison
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/routing-experiment.yml'
+      - 'scripts/llm_routing.py'
+      - 'src/signalbrief/model.py'
+      - 'fixtures/routing_corpus.json'
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    env:
+      HF_HUB_DISABLE_TELEMETRY: '1'
+      TOKENIZERS_PARALLELISM: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install inference runtime
+        run: |
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu torch==2.6.0
+          python -m pip install transformers==4.51.3
+      - name: Compare 24 frozen observations across five label orders
+        run: python scripts/llm_routing.py --output build/llm-routing.json
+      - name: Recalculate all results from archived next-token scores
+        run: python scripts/llm_routing.py --validate --output build/llm-routing.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: llm-routing
+          path: build/llm-routing.json
