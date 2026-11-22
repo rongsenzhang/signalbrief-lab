@@ -37,6 +37,13 @@ class RoutingComparisonTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             routing.holdout(corpus)
 
+    def test_published_snapshot_recalculates_against_frozen_holdout(self):
+        corpus = json.loads(routing.CORPUS.read_text())
+        snap = json.loads(routing.OUTPUT.read_text())
+        routing.validate(corpus, snap)
+        self.assertEqual(snap["measurement"]["examples"], len(snap["rows"]))
+        self.assertEqual(snap["measurement"]["forward_passes"], len(snap["rows"]) * len(routing.ORDERS))
+
     def test_abstention_counts_as_a_miss_on_a_labelled_example(self):
         rows = [{"expected": "Telemetry", "guess": "Uncertain"}, {"expected": "Identity", "guess": "Identity"}]
         summary = routing.metrics(rows, "guess")
