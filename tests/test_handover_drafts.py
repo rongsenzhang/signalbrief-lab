@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import sys
 import unittest
 from pathlib import Path
@@ -65,6 +66,22 @@ class HandoverDraftTests(unittest.TestCase):
         altered["cases"]["SB-101"]["sources"] = []
         with self.assertRaises(ValueError):
             draft.validate(self.data, altered)
+
+    def test_recorded_editorial_review_matches_the_actual_drafts(self):
+        review = draft.read(ROOT / "docs/data/handover-review.json")
+        artifact = draft.read(draft.OUTPUT)
+        self.assertEqual(review["snapshot_sha256"], hashlib.sha256(draft.OUTPUT.read_bytes()).hexdigest())
+        self.assertEqual(review["workflow_run"], artifact["runtime"]["workflow_run"])
+        self.assertEqual(set(review["cases"]), set(artifact["cases"]))
+        for case_id, case in artifact["cases"].items():
+            assessments = review["cases"][case_id]
+            self.assertEqual(set(assessments), set(case["drafts"]))
+            for role, item in case["drafts"].items():
+                audit = assessments[role]
+                self.assertEqual(audit["draft_sha256"], hashlib.sha256(item["text"].encode()).hexdigest())
+                self.assertEqual(audit["evidence_ids"], [source["id"] for source in case["sources"]])
+                self.assertIn(audit["verdict"], {"supported", "supported with omission", "contains unsupported claims"})
+                self.assertTrue(audit["note"].strip())
 
     def test_published_snapshot_when_ready(self):
         artifact = draft.read(draft.OUTPUT)
