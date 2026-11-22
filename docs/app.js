@@ -4,6 +4,7 @@
   const byId = id => document.getElementById(id);
   const storageKey = "signalbrief.reviews.v1";
   const choices = ["Escalate", "Request context", "Monitor", "Close"];
+  const reviewOwner = {"ACCESS-A":"Identity analyst", "DEVICE-A":"Endpoint analyst", "BACKUP-A":"Recovery owner", "FEED-A":"Monitoring owner"};
   const mobile = window.matchMedia("(max-width: 760px)");
   let cases = [];
   let languageModel = null;
@@ -281,6 +282,7 @@
   function currentDraft() {
     return {
       decision: byId("review-form").querySelector("input[name=disposition]:checked")?.value || "",
+      owner: byId("review-owner").value,
       note: byId("review-note").value.trim()
     };
   }
@@ -290,6 +292,7 @@
     const draft = drafts.get(key()) || saved || {};
     byId("review-info").textContent = saved ? "Saved at event " + (step+1) + " · " + saved.decision + ". You can revise this review." : "Record your judgement for this point in the replay.";
     for (const radio of byId("dispositions").querySelectorAll("input")) radio.checked = radio.value === draft.decision;
+    byId("review-owner").value = draft.owner || reviewOwner[selection.scope] || "Service desk";
     byId("review-note").value = draft.note || "";
     byId("save").disabled = !choices.includes(draft.decision);
     byId("feedback").textContent = "";
@@ -321,7 +324,8 @@
     const f = frame();
     const saved = reviews[key()];
     const draft = currentDraft();
-    const savedHere = saved && saved.decision === draft.decision && saved.note === draft.note;
+    const savedHere = saved && saved.decision === draft.decision && saved.note === draft.note &&
+      (saved.owner || reviewOwner[selection.scope] || "Service desk") === draft.owner;
     const model = modelEvidence();
     const lines = [
       "# " + selection.id + " · " + selection.title, "",
@@ -333,7 +337,8 @@
       "Supporting events: " + f.evidence_ids.join(", "), "", "## Model-selected observation", "",
       model ? languageModel.model_id + " · " + model.id + " · " + model.text : "No verified language-model selection for this frame.", "",
       "## Evidence ledger", "", ...observed().map(e => "- " + e.id + " | " + e.time + " | " + e.source + " | " + e.text), "",
-      "## Human review", "", "Disposition: " + (draft.decision || "Pending"), "Review state: " + (savedHere ? "Saved" : "Draft"),
+      "## Human review", "", "Disposition: " + (draft.decision || "Pending"), "Next review owner: " + draft.owner,
+      "Confirmed customer impact: Unknown from the observed records.", "Review state: " + (savedHere ? "Saved" : "Draft"),
       ...(savedHere ? ["Saved at: " + saved.savedAt] : []), "", draft.note || "No handover note recorded.", ""
     ];
     const url = URL.createObjectURL(new Blob([lines.join("\n")],{type:"text/markdown;charset=utf-8"}));
@@ -456,6 +461,13 @@
       .then(([raw, review]) => { generatedDrafts = raw; sourceReview = review; showDraftComparison(); })
       .catch(() => { byId("draft-review").hidden = true; });
     getData("data/language-model.json").then(snapshot => { languageModel = snapshot; showBrief(); }).catch(() => {});
+    getData("data/llm-routing.json").then(run => {
+      if (run.status !== "ready") return;
+      const {qwen, naive_bayes, majority} = run.summary;
+      byId("guide-llm").textContent = "On the same " + qwen.total + " observations, Qwen matched " + qwen.correct +
+        ", the fitted text router matched " + naive_bayes.correct + " and the majority baseline matched " + majority.correct + ".";
+      byId("guide-llm").hidden = false;
+    }).catch(() => {});
     getData("data/evaluation.json").then(({routing,benchmark}) => {
       const matched = Math.round(routing.test_size * routing.accuracy);
       byId("guide-routing").textContent = "The topic classifier matched " + matched + " of " + routing.test_size + " held-out synthetic phrases. The small English test set covers four topics.";

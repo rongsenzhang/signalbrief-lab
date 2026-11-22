@@ -28,7 +28,13 @@ python scripts/llm_evidence.py --output build/language-model.json
 python scripts/llm_evidence.py --validate --output build/language-model.json
 ```
 
-The model snapshot workflow runs on relevant pushes to main and can be started manually. Open its `language-model-snapshot` artifact for the full JSON. A verified artifact can replace `docs/data/language-model.json` for small-device access. The value of `status` in the public file distinguishes a published run from an unexecuted snapshot. The browser lab runs independently of any saved result. Int8 inference may select a different record from the float32 workflow.
+The [successful workflow](https://github.com/rongsenzhang/signalbrief-lab/actions/runs/45082386719) ran both CPU and in-browser inference. It can be started manually or by a relevant push to main. Open its `language-model-snapshot` artifact for the full JSON. A verified artifact can replace `docs/data/language-model.json` for small-device access. The value of `status` in the public file distinguishes a published run from an unexecuted snapshot. The browser lab runs independently of any saved result. Int8 inference may select a different record from the float32 workflow.
+
+## Observed release result
+
+On the 17 published prefixes, SmolLM2 returned no usable selection: 14 outputs had an invalid format or choice and three abstained. On the 11 multi-event prefixes, selecting the newest event agreed with the rule citations on 10. The policy evidence and original events remain the source of the operational handover. In a separate real Chromium run on SB-101, step 3, the int8 model also returned text outside the permitted answers. The interface exposed the raw output and showed no selected source. [CPU results](data/language-model.json) · [CPU and browser run](https://github.com/rongsenzhang/signalbrief-lab/actions/runs/45082386719)
+
+The drafting and routing experiments use Qwen2.5-0.5B-Instruct and answer different questions. [Handover quality](https://github.com/rongsenzhang/signalbrief-lab/blob/main/handbook/draft-method.md) · [Label-restricted topic routing](https://github.com/rongsenzhang/signalbrief-lab/blob/main/handbook/llm-routing.md)
 
 ## How to interpret evaluation
 

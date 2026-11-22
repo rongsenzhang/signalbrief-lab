@@ -92,4 +92,112 @@ async function start() {
   updateRequest();
   if (!live) await inspect();
 }
-start().catch(error => clearResult(error.message));
+
+
+let streamController = null;
+let traceRows = [];
+let streamReady = false;
+
+function syncStreamButton() {
+  el("start-stream").disabled = !streamReady || Boolean(streamController) || (live && !el("token").value);
+}
+
+function appendObservation(row) {
+  const event = row.input;
+  const decision = row.output;
+  const li = document.createElement("li");
+  const meta = document.createElement("span");
+  meta.className = "stream-meta";
+  meta.textContent = event.time.slice(11, 19) + " UTC · " + event.scope + " · " + event.id;
+  const desc = document.createElement("span");
+  desc.className = "stream-message";
+  if (decision.status === "accepted") {
+    if (decision.alert) li.className = "new-alert";
+    const ids = (decision.evidence_ids || []).join(", ");
+    desc.textContent = (decision.alert ? "New alert · " : "") + decision.priority +
+      " · " + decision.reason + (ids ? " [" + ids + "]" : "");
+  } else {
+    desc.textContent = decision.status === "duplicate" ? "Duplicate observation · Existing decision kept." :
+      "Record rejected · " + decision.code;
+  }
+  li.append(meta, desc);
+  el("stream-feed").prepend(li);
+}
+
+async function readLines(response, accept, signal) {
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  try {
+    while (!signal.aborted) {
+      const {done, value} = await reader.read();
+      buffer += decoder.decode(value, {stream: !done});
+      const parts = buffer.split("\n");
+      buffer = parts.pop();
+      parts.filter(Boolean).forEach(line => accept(JSON.parse(line)));
+      if (done) break;
+    }
+    if (buffer.trim() && !signal.aborted) accept(JSON.parse(buffer));
+  } finally { reader.releaseLock(); }
+}
+
+async function replayStream() {
+  if (streamController) return;
+  const controller = new AbortController();
+  streamController = controller;
+  el("stream-feed").replaceChildren();
+  el("stop-stream").hidden = false;
+  syncStreamButton();
+  let count = 0, alerts = 0;
+  const accept = row => {
+    if (controller.signal.aborted) return;
+    appendObservation(row);
+    count++;
+    if (row.output.alert) alerts++;
+    el("stream-state").textContent = count + " observations · " + alerts + " new alerts";
+  };
+  try {
+    if (live) {
+      const result = await fetch("/v1/demo-stream", {method: "POST", signal: controller.signal,
+        credentials: "omit", redirect: "error", cache: "no-store",
+        headers: {Authorization: "Bearer " + el("token").value}});
+      if (!result.ok) throw Error("Local stream returned HTTP " + result.status + ".");
+      await readLines(result, accept, controller.signal);
+    } else {
+      for (const row of traceRows) {
+        if (controller.signal.aborted) break;
+        accept(row);
+        await new Promise(done => setTimeout(done, 450));
+      }
+    }
+    el("stream-state").textContent = (controller.signal.aborted ? "Stopped" : "Finished") + " · " + count +
+      " observations · " + alerts + " new alerts";
+  } catch(error) {
+    el("stream-state").textContent = controller.signal.aborted ? "Stopped after " + count + " observations." : error.message;
+  } finally {
+    streamController = null;
+    el("stop-stream").hidden = true;
+    syncStreamButton();
+  }
+}
+
+async function initStream() {
+  const res = await fetch("data/stream-trace.json");
+  if (!res.ok) throw Error("Stream trace unavailable.");
+  const trace = await res.json();
+  if (!Array.isArray(trace.rows) || trace.rows.length === 0) throw Error("Stream trace unavailable.");
+  traceRows = trace.rows;
+  streamReady = true;
+  if (live) {
+    el("stream-mode").textContent = "Live Python mode. The local server delivers a fresh stream of synthetic observations over HTTP. Each decision is computed as its event arrives.";
+    el("start-stream").textContent = "Run live event stream";
+  }
+  el("stream-state").textContent = traceRows.length + " synthetic observations";
+  el("start-stream").addEventListener("click", replayStream);
+  el("stop-stream").addEventListener("click", () => streamController?.abort());
+  el("token").addEventListener("input", syncStreamButton);
+  syncStreamButton();
+}
+
+start().then(() => initStream().catch(error => { el("stream-state").textContent = error.message; }))
+  .catch(error => clearResult(error.message));
