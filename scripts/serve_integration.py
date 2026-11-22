@@ -1,5 +1,7 @@
 """Open the contract lab against the authenticated loopback API."""
 import argparse
+import json
+import time
 import os
 import sys
 from http.server import ThreadingHTTPServer
@@ -9,6 +11,7 @@ from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from signalbrief.api import handler_for
+from signalbrief.stream import EventStream
 
 
 def lab_handler(token):
@@ -19,10 +22,37 @@ def lab_handler(token):
         "/integration.js": ("integration.js", "text/javascript; charset=utf-8"),
         "/integration.css": ("integration.css", "text/css; charset=utf-8"),
         "/data/contract-examples.json": ("data/contract-examples.json", "application/json"),
+        "/data/stream-trace.json": ("data/stream-trace.json", "application/json"),
         "/mark.svg": ("mark.svg", "image/svg+xml"),
     }
 
     class IntegrationLab(base):
+        def do_POST(self):
+            if self.path != "/v1/demo-stream":
+                return super().do_POST()
+            if not self.authorised():
+                return self.reply(401, {"error": "A valid bearer token is required."})
+            if self.headers.get_all("Content-Length", ["0"]) != ["0"] or self.headers.get("Transfer-Encoding"):
+                return self.reply(400, {"error": "The demo stream accepts a POST with an empty body."})
+            detector = EventStream()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/x-ndjson; charset=utf-8")
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("X-Content-Type-Options", "nosniff")
+            self.send_header("Connection", "close")
+            self.end_headers()
+            self.close_connection = True
+            with (ROOT / "fixtures/stream-demo.ndjson").open() as source:
+                for line in source:
+                    packet = json.loads(line)
+                    decision = {"input": packet, "output": detector.ingest(packet)}
+                    try:
+                        self.wfile.write((json.dumps(decision) + "\n").encode())
+                        self.wfile.flush()
+                    except (BrokenPipeError, ConnectionResetError, TimeoutError):
+                        return
+                    time.sleep(0.25)
+
         def do_GET(self):
             path = urlsplit(self.path).path
             if path == "/lab-mode":
