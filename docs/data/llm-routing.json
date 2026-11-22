@@ -1,0 +1,1626 @@
+{
+  "schema_version": 1,
+  "status": "ready",
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "protocol": "qwen-next-letter-balanced/1",
+  "corpus_sha256": "5407d9391a4036723d007fd857f3d30fe3f1d3b1b174f3f9ffb8ed9948710c3e",
+  "prompt_sha256": "eb758eda1cce68c318b59e58c1368737e2b345c3569fbb99f1711fde39142341",
+  "letters": "ABCDE",
+  "candidate_orders": [
+    [
+      "Identity",
+      "Endpoint",
+      "Service continuity",
+      "Telemetry",
+      "Uncertain"
+    ],
+    [
+      "Endpoint",
+      "Service continuity",
+      "Telemetry",
+      "Uncertain",
+      "Identity"
+    ],
+    [
+      "Service continuity",
+      "Telemetry",
+      "Uncertain",
+      "Identity",
+      "Endpoint"
+    ],
+    [
+      "Telemetry",
+      "Uncertain",
+      "Identity",
+      "Endpoint",
+      "Service continuity"
+    ],
+    [
+      "Uncertain",
+      "Identity",
+      "Endpoint",
+      "Service continuity",
+      "Telemetry"
+    ]
+  ],
+  "runtime": {
+    "engine": "PyTorch CPU",
+    "dtype": "float32",
+    "torch": "2.6.0+cpu",
+    "transformers": "4.51.3",
+    "threads": 2,
+    "candidate_token_ids": [
+      32,
+      33,
+      34,
+      35,
+      36
+    ],
+    "workflow_run": "45082575026",
+    "source_commit": "549120d3aff83a951f545dba553498096200f593"
+  },
+  "measurement": {
+    "elapsed_seconds": 103.909,
+    "examples": 24,
+    "forward_passes": 120,
+    "scope": "CPU scoring, tokenization, aggregation and baseline prediction. Model loading excluded."
+  },
+  "summary": {
+    "qwen": {
+      "total": 24,
+      "correct": 13,
+      "abstained": 7,
+      "accuracy": 0.541667,
+      "per_class_f1": {
+        "Identity": 0.857143,
+        "Endpoint": 0.8,
+        "Service continuity": 0.444444,
+        "Telemetry": 0.25
+      },
+      "macro_f1": 0.587897,
+      "confusion": {
+        "Identity": {
+          "Identity": 6,
+          "Endpoint": 0,
+          "Service continuity": 0,
+          "Telemetry": 0,
+          "Uncertain": 0
+        },
+        "Endpoint": {
+          "Identity": 1,
+          "Endpoint": 4,
+          "Service continuity": 1,
+          "Telemetry": 0,
+          "Uncertain": 0
+        },
+        "Service continuity": {
+          "Identity": 0,
+          "Endpoint": 0,
+          "Service continuity": 2,
+          "Telemetry": 1,
+          "Uncertain": 3
+        },
+        "Telemetry": {
+          "Identity": 1,
+          "Endpoint": 0,
+          "Service continuity": 0,
+          "Telemetry": 1,
+          "Uncertain": 4
+        }
+      }
+    },
+    "naive_bayes": {
+      "total": 24,
+      "correct": 23,
+      "abstained": 1,
+      "accuracy": 0.958333,
+      "per_class_f1": {
+        "Identity": 1.0,
+        "Endpoint": 1.0,
+        "Service continuity": 1.0,
+        "Telemetry": 0.909091
+      },
+      "macro_f1": 0.977273,
+      "confusion": {
+        "Identity": {
+          "Identity": 6,
+          "Endpoint": 0,
+          "Service continuity": 0,
+          "Telemetry": 0,
+          "Uncertain": 0
+        },
+        "Endpoint": {
+          "Identity": 0,
+          "Endpoint": 6,
+          "Service continuity": 0,
+          "Telemetry": 0,
+          "Uncertain": 0
+        },
+        "Service continuity": {
+          "Identity": 0,
+          "Endpoint": 0,
+          "Service continuity": 6,
+          "Telemetry": 0,
+          "Uncertain": 0
+        },
+        "Telemetry": {
+          "Identity": 0,
+          "Endpoint": 0,
+          "Service continuity": 0,
+          "Telemetry": 5,
+          "Uncertain": 1
+        }
+      }
+    },
+    "majority": {
+      "total": 24,
+      "correct": 6,
+      "abstained": 0,
+      "accuracy": 0.25,
+      "per_class_f1": {
+        "Identity": 0.4,
+        "Endpoint": 0.0,
+        "Service continuity": 0.0,
+        "Telemetry": 0.0
+      },
+      "macro_f1": 0.1,
+      "confusion": {
+        "Identity": {
+          "Identity": 6,
+          "Endpoint": 0,
+          "Service continuity": 0,
+          "Telemetry": 0,
+          "Uncertain": 0
+        },
+        "Endpoint": {
+          "Identity": 6,
+          "Endpoint": 0,
+          "Service continuity": 0,
+          "Telemetry": 0,
+          "Uncertain": 0
+        },
+        "Service continuity": {
+          "Identity": 6,
+          "Endpoint": 0,
+          "Service continuity": 0,
+          "Telemetry": 0,
+          "Uncertain": 0
+        },
+        "Telemetry": {
+          "Identity": 6,
+          "Endpoint": 0,
+          "Service continuity": 0,
+          "Telemetry": 0,
+          "Uncertain": 0
+        }
+      }
+    },
+    "all_five_orders_agree": 0,
+    "individual_order_correct_out_of_24": [
+      8,
+      8,
+      4,
+      7,
+      6
+    ]
+  },
+  "rows": [
+    {
+      "expected": "Identity",
+      "group": "credential-check",
+      "text": "An account check ended with refused credentials.",
+      "qwen": "Identity",
+      "mean_logits": {
+        "Identity": 23.943121,
+        "Endpoint": 23.369698,
+        "Service continuity": 23.153108,
+        "Telemetry": 23.165828,
+        "Uncertain": 23.484746
+      },
+      "per_order_labels": [
+        "Identity",
+        "Identity",
+        "Uncertain",
+        "Identity",
+        "Uncertain"
+      ],
+      "raw_next_token_logits": [
+        [
+          24.793982,
+          23.741219,
+          23.595436,
+          22.830238,
+          22.245575
+        ],
+        [
+          23.627594,
+          23.407801,
+          23.861719,
+          23.614117,
+          23.943592
+        ],
+        [
+          23.232586,
+          23.220028,
+          23.669767,
+          23.229139,
+          23.240446
+        ],
+        [
+          23.342976,
+          23.520557,
+          23.760862,
+          23.125759,
+          22.799162
+        ],
+        [
+          24.373714,
+          23.988031,
+          23.11347,
+          22.730553,
+          22.574177
+        ]
+      ],
+      "naive_bayes": "Identity",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Identity",
+      "group": "credential-check",
+      "text": "A user disputed an unfamiliar login.",
+      "qwen": "Identity",
+      "mean_logits": {
+        "Identity": 21.984617,
+        "Endpoint": 21.62755,
+        "Service continuity": 21.558622,
+        "Telemetry": 21.7639,
+        "Uncertain": 21.905168
+      },
+      "per_order_labels": [
+        "Identity",
+        "Uncertain",
+        "Identity",
+        "Telemetry",
+        "Uncertain"
+      ],
+      "raw_next_token_logits": [
+        [
+          22.346087,
+          21.366541,
+          21.282835,
+          21.934391,
+          20.753716
+        ],
+        [
+          22.541925,
+          22.192846,
+          22.461388,
+          22.592287,
+          21.911024
+        ],
+        [
+          21.486122,
+          21.530411,
+          21.557535,
+          21.816072,
+          21.170147
+        ],
+        [
+          21.809135,
+          21.718349,
+          21.613708,
+          21.755438,
+          20.940283
+        ],
+        [
+          22.903954,
+          22.236193,
+          21.303699,
+          21.891022,
+          21.084177
+        ]
+      ],
+      "naive_bayes": "Identity",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Identity",
+      "group": "account-ownership",
+      "text": "The owner verified access on their session.",
+      "qwen": "Identity",
+      "mean_logits": {
+        "Identity": 23.850545,
+        "Endpoint": 23.681018,
+        "Service continuity": 23.57272,
+        "Telemetry": 23.462804,
+        "Uncertain": 23.346347
+      },
+      "per_order_labels": [
+        "Identity",
+        "Telemetry",
+        "Endpoint",
+        "Service continuity",
+        "Uncertain"
+      ],
+      "raw_next_token_logits": [
+        [
+          25.07597,
+          23.612188,
+          23.988905,
+          22.694916,
+          22.86832
+        ],
+        [
+          24.480278,
+          23.843021,
+          24.561386,
+          23.41848,
+          24.186832
+        ],
+        [
+          23.587448,
+          23.053841,
+          23.301105,
+          22.894104,
+          23.911486
+        ],
+        [
+          23.434807,
+          22.905869,
+          23.228689,
+          22.862843,
+          23.672697
+        ],
+        [
+          24.237961,
+          23.86713,
+          23.538296,
+          22.77153,
+          23.569069
+        ]
+      ],
+      "naive_bayes": "Identity",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Identity",
+      "group": "account-ownership",
+      "text": "A colleague recognised their sign-in.",
+      "qwen": "Identity",
+      "mean_logits": {
+        "Identity": 22.941818,
+        "Endpoint": 22.827021,
+        "Service continuity": 22.693684,
+        "Telemetry": 22.580657,
+        "Uncertain": 22.399548
+      },
+      "per_order_labels": [
+        "Identity",
+        "Endpoint",
+        "Service continuity",
+        "Telemetry",
+        "Uncertain"
+      ],
+      "raw_next_token_logits": [
+        [
+          24.080561,
+          22.603426,
+          22.774853,
+          21.783777,
+          21.857578
+        ],
+        [
+          24.052206,
+          23.030899,
+          23.386633,
+          22.403833,
+          23.182957
+        ],
+        [
+          23.065672,
+          22.187168,
+          22.148487,
+          21.799988,
+          22.733547
+        ],
+        [
+          22.872869,
+          21.874819,
+          22.228691,
+          21.736635,
+          22.319334
+        ],
+        [
+          23.713024,
+          23.416893,
+          23.009293,
+          22.27766,
+          22.67284
+        ]
+      ],
+      "naive_bayes": "Identity",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Identity",
+      "group": "identity-paraphrase",
+      "text": "Directory access was refused again.",
+      "qwen": "Identity",
+      "mean_logits": {
+        "Identity": 23.264824,
+        "Endpoint": 23.008183,
+        "Service continuity": 22.943459,
+        "Telemetry": 23.069527,
+        "Uncertain": 23.197457
+      },
+      "per_order_labels": [
+        "Service continuity",
+        "Telemetry",
+        "Uncertain",
+        "Identity",
+        "Uncertain"
+      ],
+      "raw_next_token_logits": [
+        [
+          23.503506,
+          22.849817,
+          23.541039,
+          22.739752,
+          22.710821
+        ],
+        [
+          23.315264,
+          23.182476,
+          24.279303,
+          23.128359,
+          23.444736
+        ],
+        [
+          22.523102,
+          22.693388,
+          23.58613,
+          22.639193,
+          23.020792
+        ],
+        [
+          22.407152,
+          22.981548,
+          23.228695,
+          22.579557,
+          22.80978
+        ],
+        [
+          23.580427,
+          23.507992,
+          23.275486,
+          22.660898,
+          23.228041
+        ]
+      ],
+      "naive_bayes": "Identity",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Identity",
+      "group": "identity-paraphrase",
+      "text": "The account holder called about an access anomaly.",
+      "qwen": "Identity",
+      "mean_logits": {
+        "Identity": 23.647648,
+        "Endpoint": 23.329626,
+        "Service continuity": 23.000997,
+        "Telemetry": 22.74297,
+        "Uncertain": 22.769453
+      },
+      "per_order_labels": [
+        "Identity",
+        "Endpoint",
+        "Service continuity",
+        "Identity",
+        "Uncertain"
+      ],
+      "raw_next_token_logits": [
+        [
+          25.034651,
+          23.153564,
+          23.709692,
+          21.635906,
+          21.098305
+        ],
+        [
+          24.172197,
+          23.015903,
+          23.935314,
+          22.511446,
+          23.705122
+        ],
+        [
+          23.130911,
+          22.286131,
+          22.992174,
+          22.067219,
+          22.968227
+        ],
+        [
+          23.30419,
+          22.862194,
+          23.543806,
+          22.581333,
+          22.937441
+        ],
+        [
+          24.383146,
+          23.887444,
+          23.77281,
+          22.211037,
+          22.553307
+        ]
+      ],
+      "naive_bayes": "Identity",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Endpoint",
+      "group": "device-policy",
+      "text": "A workstation control prevented the same binary.",
+      "qwen": "Endpoint",
+      "mean_logits": {
+        "Identity": 22.727666,
+        "Endpoint": 22.808768,
+        "Service continuity": 22.766124,
+        "Telemetry": 22.612796,
+        "Uncertain": 22.526556
+      },
+      "per_order_labels": [
+        "Identity",
+        "Telemetry",
+        "Uncertain",
+        "Identity",
+        "Endpoint"
+      ],
+      "raw_next_token_logits": [
+        [
+          23.422485,
+          22.683092,
+          23.400988,
+          22.200237,
+          22.097328
+        ],
+        [
+          23.675129,
+          23.390184,
+          23.924194,
+          22.132137,
+          22.294136
+        ],
+        [
+          22.390558,
+          22.485798,
+          23.027514,
+          22.107977,
+          22.496315
+        ],
+        [
+          22.000086,
+          22.483215,
+          22.875118,
+          22.212709,
+          22.652035
+        ],
+        [
+          22.892586,
+          22.938616,
+          22.976595,
+          21.996855,
+          22.453663
+        ]
+      ],
+      "naive_bayes": "Endpoint",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Endpoint",
+      "group": "device-policy",
+      "text": "Inventory flagged unexpected workstation activity.",
+      "qwen": "Identity",
+      "mean_logits": {
+        "Identity": 23.025161,
+        "Endpoint": 22.97764,
+        "Service continuity": 22.906578,
+        "Telemetry": 22.899155,
+        "Uncertain": 22.895883
+      },
+      "per_order_labels": [
+        "Identity",
+        "Endpoint",
+        "Uncertain",
+        "Service continuity",
+        "Uncertain"
+      ],
+      "raw_next_token_logits": [
+        [
+          23.826382,
+          22.518261,
+          23.181717,
+          22.223104,
+          22.785379
+        ],
+        [
+          24.055157,
+          23.049368,
+          23.606215,
+          21.924984,
+          23.032112
+        ],
+        [
+          23.096252,
+          22.635721,
+          23.237341,
+          22.12085,
+          23.113426
+        ],
+        [
+          22.837627,
+          22.565807,
+          22.935165,
+          22.192677,
+          23.024406
+        ],
+        [
+          23.965902,
+          23.211294,
+          23.00868,
+          22.181149,
+          23.193106
+        ]
+      ],
+      "naive_bayes": "Endpoint",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Endpoint",
+      "group": "host-observation",
+      "text": "An endpoint observer saw the application return.",
+      "qwen": "Endpoint",
+      "mean_logits": {
+        "Identity": 23.0606,
+        "Endpoint": 24.106216,
+        "Service continuity": 23.86101,
+        "Telemetry": 22.727459,
+        "Uncertain": 22.496287
+      },
+      "per_order_labels": [
+        "Service continuity",
+        "Endpoint",
+        "Endpoint",
+        "Service continuity",
+        "Endpoint"
+      ],
+      "raw_next_token_logits": [
+        [
+          23.401381,
+          23.441521,
+          25.391626,
+          22.429779,
+          22.441311
+        ],
+        [
+          24.733549,
+          23.815876,
+          24.623493,
+          22.628473,
+          22.700686
+        ],
+        [
+          22.086475,
+          21.557167,
+          22.704464,
+          22.255384,
+          24.263102
+        ],
+        [
+          21.586655,
+          22.143349,
+          23.129019,
+          23.204639,
+          24.635454
+        ],
+        [
+          22.563839,
+          23.816528,
+          24.888268,
+          23.375618,
+          23.440199
+        ]
+      ],
+      "naive_bayes": "Endpoint",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Endpoint",
+      "group": "host-observation",
+      "text": "Our desktop protection stopped an application.",
+      "qwen": "Endpoint",
+      "mean_logits": {
+        "Identity": 23.190219,
+        "Endpoint": 23.295473,
+        "Service continuity": 23.246031,
+        "Telemetry": 23.215734,
+        "Uncertain": 23.063573
+      },
+      "per_order_labels": [
+        "Service continuity",
+        "Telemetry",
+        "Endpoint",
+        "Service continuity",
+        "Telemetry"
+      ],
+      "raw_next_token_logits": [
+        [
+          23.25572,
+          23.17631,
+          23.362522,
+          23.015383,
+          22.941698
+        ],
+        [
+          23.624384,
+          23.801857,
+          24.166687,
+          22.988871,
+          23.163404
+        ],
+        [
+          22.491669,
+          23.111507,
+          23.256104,
+          22.830921,
+          23.320116
+        ],
+        [
+          22.066093,
+          22.931217,
+          23.051041,
+          22.909937,
+          23.567951
+        ],
+        [
+          23.199974,
+          23.650009,
+          23.446617,
+          23.006157,
+          23.718998
+        ]
+      ],
+      "naive_bayes": "Endpoint",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Endpoint",
+      "group": "endpoint-paraphrase",
+      "text": "The laptop has an unexpected process.",
+      "qwen": "Endpoint",
+      "mean_logits": {
+        "Identity": 22.653612,
+        "Endpoint": 22.692499,
+        "Service continuity": 22.653515,
+        "Telemetry": 22.545202,
+        "Uncertain": 22.381915
+      },
+      "per_order_labels": [
+        "Identity",
+        "Endpoint",
+        "Uncertain",
+        "Service continuity",
+        "Identity"
+      ],
+      "raw_next_token_logits": [
+        [
+          23.015984,
+          22.515865,
+          22.806406,
+          21.9097,
+          22.229221
+        ],
+        [
+          23.501881,
+          23.272211,
+          23.470778,
+          21.785671,
+          22.670712
+        ],
+        [
+          22.251396,
+          22.52067,
+          22.772598,
+          21.811773,
+          22.662458
+        ],
+        [
+          21.802431,
+          22.391817,
+          22.576283,
+          21.936218,
+          22.808517
+        ],
+        [
+          22.73027,
+          23.193308,
+          22.846075,
+          22.129044,
+          23.022429
+        ]
+      ],
+      "naive_bayes": "Endpoint",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Endpoint",
+      "group": "endpoint-paraphrase",
+      "text": "A device flagged a newly launched executable.",
+      "qwen": "Service continuity",
+      "mean_logits": {
+        "Identity": 22.452194,
+        "Endpoint": 22.48576,
+        "Service continuity": 22.48626,
+        "Telemetry": 22.265572,
+        "Uncertain": 22.011933
+      },
+      "per_order_labels": [
+        "Identity",
+        "Telemetry",
+        "Endpoint",
+        "Service continuity",
+        "Endpoint"
+      ],
+      "raw_next_token_logits": [
+        [
+          23.162937,
+          22.07279,
+          23.084198,
+          21.872393,
+          21.834805
+        ],
+        [
+          23.241945,
+          22.730234,
+          23.616144,
+          21.840351,
+          22.461912
+        ],
+        [
+          22.06908,
+          21.80489,
+          22.459167,
+          21.739071,
+          22.542107
+        ],
+        [
+          21.612343,
+          21.636837,
+          22.368793,
+          21.933186,
+          22.577179
+        ],
+        [
+          22.288507,
+          22.528259,
+          22.638771,
+          21.970608,
+          22.422089
+        ]
+      ],
+      "naive_bayes": "Endpoint",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Service continuity",
+      "group": "continuity-policy",
+      "text": "The recovery checkpoint passed the new exercise.",
+      "qwen": "Service continuity",
+      "mean_logits": {
+        "Identity": 22.913497,
+        "Endpoint": 22.850896,
+        "Service continuity": 23.48418,
+        "Telemetry": 23.43916,
+        "Uncertain": 23.059955
+      },
+      "per_order_labels": [
+        "Service continuity",
+        "Telemetry",
+        "Uncertain",
+        "Service continuity",
+        "Telemetry"
+      ],
+      "raw_next_token_logits": [
+        [
+          22.02013,
+          22.857145,
+          24.15168,
+          23.130545,
+          24.080933
+        ],
+        [
+          21.896259,
+          23.093563,
+          25.033939,
+          23.068493,
+          23.913839
+        ],
+        [
+          22.678381,
+          23.223351,
+          23.845631,
+          22.238852,
+          23.196827
+        ],
+        [
+          20.95668,
+          22.168711,
+          23.057129,
+          22.62685,
+          24.374975
+        ],
+        [
+          22.136005,
+          23.337536,
+          23.677401,
+          23.122303,
+          24.851286
+        ]
+      ],
+      "naive_bayes": "Service continuity",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Service continuity",
+      "group": "continuity-policy",
+      "text": "The restore verification missed its window.",
+      "qwen": "Uncertain",
+      "mean_logits": {
+        "Identity": 23.228,
+        "Endpoint": 22.731828,
+        "Service continuity": 22.763214,
+        "Telemetry": 23.037786,
+        "Uncertain": 23.53345
+      },
+      "per_order_labels": [
+        "Uncertain",
+        "Identity",
+        "Uncertain",
+        "Uncertain",
+        "Uncertain"
+      ],
+      "raw_next_token_logits": [
+        [
+          22.635216,
+          23.065701,
+          22.923058,
+          22.934113,
+          23.549953
+        ],
+        [
+          22.424458,
+          23.353415,
+          24.151217,
+          23.405235,
+          24.182211
+        ],
+        [
+          21.972485,
+          23.084797,
+          23.841337,
+          22.643108,
+          22.855642
+        ],
+        [
+          21.662483,
+          23.25561,
+          23.138714,
+          22.406435,
+          22.829292
+        ],
+        [
+          23.615116,
+          23.540751,
+          22.906902,
+          22.737818,
+          23.356318
+        ]
+      ],
+      "naive_bayes": "Service continuity",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Service continuity",
+      "group": "copy-validation",
+      "text": "An overdue backup is awaiting verification.",
+      "qwen": "Uncertain",
+      "mean_logits": {
+        "Identity": 23.275024,
+        "Endpoint": 22.983949,
+        "Service continuity": 23.303862,
+        "Telemetry": 23.31553,
+        "Uncertain": 23.321607
+      },
+      "per_order_labels": [
+        "Uncertain",
+        "Telemetry",
+        "Uncertain",
+        "Service continuity",
+        "Telemetry"
+      ],
+      "raw_next_token_logits": [
+        [
+          22.997587,
+          22.388386,
+          23.336397,
+          23.13455,
+          23.765997
+        ],
+        [
+          23.417503,
+          22.996244,
+          24.324425,
+          23.44968,
+          24.173052
+        ],
+        [
+          23.276617,
+          22.589685,
+          23.33659,
+          22.73325,
+          22.96118
+        ],
+        [
+          22.359146,
+          22.390339,
+          23.142868,
+          22.910172,
+          23.623999
+        ],
+        [
+          23.665428,
+          23.328363,
+          23.242506,
+          23.286051,
+          24.169842
+        ]
+      ],
+      "naive_bayes": "Service continuity",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Service continuity",
+      "group": "copy-validation",
+      "text": "The latest storage copy was late.",
+      "qwen": "Telemetry",
+      "mean_logits": {
+        "Identity": 22.896475,
+        "Endpoint": 22.705113,
+        "Service continuity": 22.836036,
+        "Telemetry": 22.987294,
+        "Uncertain": 22.940879
+      },
+      "per_order_labels": [
+        "Uncertain",
+        "Telemetry",
+        "Endpoint",
+        "Service continuity",
+        "Telemetry"
+      ],
+      "raw_next_token_logits": [
+        [
+          22.007229,
+          22.513105,
+          23.115793,
+          23.141293,
+          23.724197
+        ],
+        [
+          22.075382,
+          22.954248,
+          24.099161,
+          23.239395,
+          23.933575
+        ],
+        [
+          21.640787,
+          22.471048,
+          23.025995,
+          22.586807,
+          23.067543
+        ],
+        [
+          21.135056,
+          22.254633,
+          22.790127,
+          22.600023,
+          23.372263
+        ],
+        [
+          22.460173,
+          23.164635,
+          23.269512,
+          23.097088,
+          24.089914
+        ]
+      ],
+      "naive_bayes": "Service continuity",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Service continuity",
+      "group": "continuity-paraphrase",
+      "text": "No usable recovery point is confirmed yet.",
+      "qwen": "Uncertain",
+      "mean_logits": {
+        "Identity": 22.609171,
+        "Endpoint": 22.265929,
+        "Service continuity": 22.841735,
+        "Telemetry": 23.040041,
+        "Uncertain": 23.319011
+      },
+      "per_order_labels": [
+        "Uncertain",
+        "Telemetry",
+        "Uncertain",
+        "Service continuity",
+        "Telemetry"
+      ],
+      "raw_next_token_logits": [
+        [
+          21.369429,
+          21.677404,
+          23.481339,
+          23.253996,
+          23.903442
+        ],
+        [
+          21.666004,
+          22.247616,
+          24.807646,
+          23.635963,
+          23.606226
+        ],
+        [
+          22.292423,
+          22.40353,
+          24.521915,
+          22.474829,
+          22.239506
+        ],
+        [
+          21.045111,
+          21.65811,
+          22.946712,
+          22.515902,
+          23.172638
+        ],
+        [
+          22.875626,
+          22.648661,
+          23.230827,
+          23.01466,
+          23.68992
+        ]
+      ],
+      "naive_bayes": "Service continuity",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Service continuity",
+      "group": "continuity-paraphrase",
+      "text": "The service backup was delayed by its job queue.",
+      "qwen": "Service continuity",
+      "mean_logits": {
+        "Identity": 23.150817,
+        "Endpoint": 23.097156,
+        "Service continuity": 23.724768,
+        "Telemetry": 23.721691,
+        "Uncertain": 23.512279
+      },
+      "per_order_labels": [
+        "Telemetry",
+        "Telemetry",
+        "Uncertain",
+        "Endpoint",
+        "Service continuity"
+      ],
+      "raw_next_token_logits": [
+        [
+          21.654404,
+          22.634958,
+          24.442183,
+          24.831551,
+          23.529053
+        ],
+        [
+          22.223915,
+          23.181986,
+          25.353956,
+          24.448997,
+          23.322624
+        ],
+        [
+          23.200108,
+          23.211031,
+          24.44899,
+          23.779284,
+          22.558067
+        ],
+        [
+          21.254957,
+          22.492052,
+          23.800222,
+          24.183205,
+          23.678444
+        ],
+        [
+          22.642302,
+          23.197552,
+          23.885633,
+          24.121119,
+          23.956959
+        ]
+      ],
+      "naive_bayes": "Service continuity",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Telemetry",
+      "group": "coverage-loss",
+      "text": "The collector stopped delivering records.",
+      "qwen": "Uncertain",
+      "mean_logits": {
+        "Identity": 22.547593,
+        "Endpoint": 22.146222,
+        "Service continuity": 22.12193,
+        "Telemetry": 22.698049,
+        "Uncertain": 23.231159
+      },
+      "per_order_labels": [
+        "Uncertain",
+        "Identity",
+        "Uncertain",
+        "Uncertain",
+        "Service continuity"
+      ],
+      "raw_next_token_logits": [
+        [
+          20.065178,
+          21.948713,
+          22.017658,
+          23.116896,
+          23.481941
+        ],
+        [
+          21.505363,
+          22.946938,
+          23.488739,
+          23.853035,
+          23.976221
+        ],
+        [
+          20.797586,
+          22.311356,
+          22.998865,
+          22.94101,
+          22.293243
+        ],
+        [
+          21.584368,
+          22.991379,
+          22.705519,
+          22.786596,
+          21.77453
+        ],
+        [
+          22.830574,
+          23.050037,
+          22.197193,
+          23.072937,
+          22.988886
+        ]
+      ],
+      "naive_bayes": "Telemetry",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Telemetry",
+      "group": "coverage-loss",
+      "text": "Monitoring coverage was interrupted.",
+      "qwen": "Uncertain",
+      "mean_logits": {
+        "Identity": 22.876691,
+        "Endpoint": 22.61686,
+        "Service continuity": 22.797965,
+        "Telemetry": 23.397777,
+        "Uncertain": 23.608822
+      },
+      "per_order_labels": [
+        "Uncertain",
+        "Telemetry",
+        "Uncertain",
+        "Identity",
+        "Telemetry"
+      ],
+      "raw_next_token_logits": [
+        [
+          21.216965,
+          22.281784,
+          22.69252,
+          23.320297,
+          23.781965
+        ],
+        [
+          22.695574,
+          23.259216,
+          24.406551,
+          23.818941,
+          23.80414
+        ],
+        [
+          22.61503,
+          23.219341,
+          24.272882,
+          23.084063,
+          22.527834
+        ],
+        [
+          22.367811,
+          23.089025,
+          23.14024,
+          22.657427,
+          22.37821
+        ],
+        [
+          23.081299,
+          23.138048,
+          22.921682,
+          23.044847,
+          23.674887
+        ]
+      ],
+      "naive_bayes": "Telemetry",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Telemetry",
+      "group": "collection-resumption",
+      "text": "The missing heartbeat arrived late.",
+      "qwen": "Identity",
+      "mean_logits": {
+        "Identity": 22.84627,
+        "Endpoint": 22.529226,
+        "Service continuity": 22.581975,
+        "Telemetry": 22.819329,
+        "Uncertain": 22.818818
+      },
+      "per_order_labels": [
+        "Service continuity",
+        "Telemetry",
+        "Uncertain",
+        "Identity",
+        "Identity"
+      ],
+      "raw_next_token_logits": [
+        [
+          22.275005,
+          22.565832,
+          22.875608,
+          22.361002,
+          22.694202
+        ],
+        [
+          22.668716,
+          23.243757,
+          24.281929,
+          22.712265,
+          23.142662
+        ],
+        [
+          22.170189,
+          22.891716,
+          23.37035,
+          22.253502,
+          22.358372
+        ],
+        [
+          21.571899,
+          22.578133,
+          22.979769,
+          21.927549,
+          22.161354
+        ],
+        [
+          22.739141,
+          23.58041,
+          23.12566,
+          22.458967,
+          22.990097
+        ]
+      ],
+      "naive_bayes": "Telemetry",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Telemetry",
+      "group": "collection-resumption",
+      "text": "The feed observer received new records.",
+      "qwen": "Telemetry",
+      "mean_logits": {
+        "Identity": 22.591093,
+        "Endpoint": 22.439594,
+        "Service continuity": 22.718671,
+        "Telemetry": 22.723162,
+        "Uncertain": 22.484496
+      },
+      "per_order_labels": [
+        "Service continuity",
+        "Telemetry",
+        "Endpoint",
+        "Service continuity",
+        "Telemetry"
+      ],
+      "raw_next_token_logits": [
+        [
+          22.758934,
+          21.744312,
+          22.877666,
+          21.89546,
+          22.840565
+        ],
+        [
+          23.158352,
+          22.579224,
+          24.142462,
+          22.527565,
+          23.494761
+        ],
+        [
+          22.560848,
+          21.734863,
+          22.444767,
+          21.591471,
+          22.752529
+        ],
+        [
+          22.297197,
+          21.605021,
+          22.328501,
+          21.817909,
+          23.105194
+        ],
+        [
+          23.00456,
+          22.781797,
+          22.724867,
+          22.470421,
+          23.54583
+        ]
+      ],
+      "naive_bayes": "Telemetry",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Telemetry",
+      "group": "telemetry-paraphrase",
+      "text": "The feed stopped updating earlier today.",
+      "qwen": "Uncertain",
+      "mean_logits": {
+        "Identity": 23.380618,
+        "Endpoint": 22.933347,
+        "Service continuity": 22.970107,
+        "Telemetry": 23.410546,
+        "Uncertain": 23.825342
+      },
+      "per_order_labels": [
+        "Telemetry",
+        "Telemetry",
+        "Uncertain",
+        "Identity",
+        "Service continuity"
+      ],
+      "raw_next_token_logits": [
+        [
+          21.97154,
+          22.710358,
+          23.136303,
+          24.037943,
+          23.469702
+        ],
+        [
+          22.789162,
+          23.515657,
+          24.599594,
+          24.519003,
+          23.985826
+        ],
+        [
+          22.187138,
+          23.065783,
+          24.175211,
+          23.552618,
+          22.360409
+        ],
+        [
+          22.072405,
+          23.278767,
+          23.562603,
+          23.221937,
+          22.056761
+        ],
+        [
+          23.684027,
+          23.830502,
+          23.584869,
+          23.954674,
+          23.277006
+        ]
+      ],
+      "naive_bayes": "Telemetry",
+      "majority": "Identity"
+    },
+    {
+      "expected": "Telemetry",
+      "group": "telemetry-paraphrase",
+      "text": "There is a gap in collection.",
+      "qwen": "Uncertain",
+      "mean_logits": {
+        "Identity": 21.601084,
+        "Endpoint": 21.072204,
+        "Service continuity": 21.116736,
+        "Telemetry": 21.710149,
+        "Uncertain": 22.143121
+      },
+      "per_order_labels": [
+        "Telemetry",
+        "Uncertain",
+        "Uncertain",
+        "Uncertain",
+        "Uncertain"
+      ],
+      "raw_next_token_logits": [
+        [
+          20.628624,
+          20.489462,
+          20.466982,
+          21.742193,
+          21.39817
+        ],
+        [
+          21.379524,
+          22.107416,
+          22.620586,
+          22.646626,
+          22.497337
+        ],
+        [
+          20.888653,
+          21.716295,
+          22.218981,
+          21.662895,
+          20.700495
+        ],
+        [
+          21.43014,
+          21.844244,
+          21.451479,
+          21.3694,
+          20.277021
+        ],
+        [
+          22.607586,
+          21.765083,
+          21.422138,
+          21.843607,
+          21.041533
+        ]
+      ],
+      "naive_bayes": "Uncertain",
+      "majority": "Identity"
+    }
+  ]
+}
