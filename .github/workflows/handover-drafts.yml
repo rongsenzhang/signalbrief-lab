@@ -1,0 +1,39 @@
+name: Handover draft inference
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/handover_drafts.py'
+      - 'docs/data/scenarios.json'
+      - 'fixtures/signals.json'
+      - 'fixtures/cases.json'
+      - '.github/workflows/handover-drafts.yml'
+permissions:
+  contents: read
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      HF_HUB_DISABLE_TELEMETRY: '1'
+      TOKENIZERS_PARALLELISM: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install CPU inference runtime
+        run: |
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu torch==2.6.0
+          python -m pip install transformers==4.51.3
+      - name: Generate twelve handovers
+        run: python scripts/handover_drafts.py --output build/handover-drafts.json
+      - name: Verify sources and bounded review metadata
+        run: python scripts/handover_drafts.py --validate --output build/handover-drafts.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: handover-drafts
+          path: build/handover-drafts.json

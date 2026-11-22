@@ -1,0 +1,53 @@
+name: Model evidence snapshot
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/data/scenarios.json'
+      - 'docs/model/protocol.json'
+      - 'scripts/llm_evidence.py'
+      - 'scripts/llm_browser_smoke.py'
+      - 'docs/model/worker.js'
+      - 'docs/model/lab.js'
+      - 'docs/model-lab.html'
+      - '.github/workflows/model-snapshot.yml'
+permissions:
+  contents: read
+jobs:
+  score:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    env:
+      HF_HUB_DISABLE_TELEMETRY: '1'
+      TOKENIZERS_PARALLELISM: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install CPU inference runtime
+        run: |
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu torch==2.6.0
+          python -m pip install transformers==4.51.3
+      - name: Score observed event prefixes
+        run: python scripts/llm_evidence.py --output build/language-model.json
+      - name: Verify source text and model choices
+        run: python scripts/llm_evidence.py --validate --output build/language-model.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: language-model-snapshot
+          path: build/language-model.json
+      - name: Install networked browser smoke test
+        run: |
+          python -m pip install playwright==1.56.0
+          python -m playwright install --with-deps chromium
+      - name: Run real int8 browser inference
+        timeout-minutes: 5
+        run: python scripts/llm_browser_smoke.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: browser-model-smoke
+          path: build/browser-smoke.json
