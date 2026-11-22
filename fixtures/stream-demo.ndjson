@@ -1,0 +1,8 @@
+{"scope":"ACCESS-A","id":"E7001","time":"2026-11-16T09:00:00Z","signal":"session_opened"}
+{"scope":"DEVICE-A","id":"E7101","time":"2026-11-16T09:01:00Z","signal":"endpoint_block"}
+{"scope":"DEVICE-A","id":"E7102","time":"2026-11-16T09:02:00Z","signal":"endpoint_note"}
+{"scope":"ACCESS-A","id":"E7002","time":"2026-11-16T09:15:00Z","signal":"owner_disputes"}
+{"scope":"ACCESS-A","id":"E7002","time":"2026-11-16T09:15:00Z","signal":"owner_disputes"}
+{"scope":"DEVICE-A","id":"E7103","time":"2026-11-16T09:16:01Z","signal":"process_observed"}
+{"scope":"ACCESS-A","id":"E7003","time":"2026-11-16T09:07:00Z","signal":"owner_confirms"}
+{"scope":"DEVICE-A","id":"E7102","time":"2026-11-16T09:02:00Z","signal":"process_observed"}

@@ -88,6 +88,8 @@
           <p class="subtle" id="review-info">Record your judgement for this point in the replay.</p>
           <form id="review-form">
             <fieldset><legend>Disposition</legend><div class="dispositions" id="dispositions"></div></fieldset>
+            <label class="note-label" for="review-owner">Next review owner</label><select id="review-owner"><option>Service desk</option><option>Identity analyst</option><option>Endpoint analyst</option><option>Recovery owner</option><option>Monitoring owner</option></select>
+            <p class="impact-note">Customer impact is unconfirmed in this case. The priority reflects the evidence that needs checking.</p>
             <label class="note-label" for="review-note">Handover note <span>(optional, use fictional details)</span></label><textarea id="review-note" rows="2" maxlength="1500" placeholder="What should the next reviewer check?"></textarea>
             <div class="review-actions"><button id="save" type="submit" class="primary" disabled><svg class="icon"><use href="#i-check"/></svg>Save review</button><button id="export" type="button" class="outline"><svg class="icon"><use href="#i-export"/></svg>Download handover</button></div>
           </form>
@@ -104,8 +106,8 @@
       <li><strong>Make a decision.</strong><p>Record a disposition and save it at the current event. Download the Markdown handover to retain the evidence and review.</p></li>
     </ol>
     <p class="guide-scope">The cases are fictional. Replay advances through recorded observations. Decisions stay in this browser and apply only to their saved event position.</p>
-    <section class="guide-evaluation" id="guide-evaluation" hidden><h3>Measured results</h3><p id="guide-routing"></p><p id="guide-benchmark"></p></section>
-    <div class="guide-links"><a class="repo-guide" href="https://github.com/rongsenzhang/signalbrief-lab/blob/main/handbook/workshop.md">Training exercise</a><a class="repo-guide" href="https://github.com/rongsenzhang/signalbrief-lab/blob/main/reference/api.md">Python API contract</a><a class="repo-guide" href="https://github.com/rongsenzhang/signalbrief-lab/blob/main/handbook/role-mapping.md">KTP responsibilities</a><a class="repo-guide" href="https://github.com/rongsenzhang/signalbrief-lab/blob/main/handbook/research-note.md">Research note</a></div>
+    <section class="guide-evaluation" id="guide-evaluation" hidden><h3>Measured results</h3><p id="guide-routing"></p><p id="guide-benchmark"></p><p id="guide-llm" hidden></p></section>
+    <div class="guide-links"><a class="repo-guide" href="https://github.com/rongsenzhang/signalbrief-lab/blob/main/handbook/ktp-evidence.md">Funded KTP and project design</a><a class="repo-guide" href="https://github.com/rongsenzhang/signalbrief-lab/blob/main/handbook/llm-routing.md">LLM routing comparison</a><a class="repo-guide" href="https://github.com/rongsenzhang/signalbrief-lab/blob/main/handbook/workshop.md">Training exercise</a><a class="repo-guide" href="https://github.com/rongsenzhang/signalbrief-lab/blob/main/reference/api.md">Python API contract</a><a class="repo-guide" href="https://github.com/rongsenzhang/signalbrief-lab/blob/main/handbook/role-mapping.md">KTP responsibilities</a><a class="repo-guide" href="https://github.com/rongsenzhang/signalbrief-lab/blob/main/handbook/research-note.md">Research note</a></div>
   </dialog>
 </body>
 </html>

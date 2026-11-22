@@ -50,6 +50,9 @@ def run():
                     expect(page.locator("#priority")).to_have_text("Routine")
                     data = json.loads(page.locator("#response").text_content())
                     assert data["frames"][-1]["evidence_ids"] == ["E5001", "E5002"]
+                    page.click("#start-stream")
+                    expect(page.locator("#stream-state")).to_contain_text("Finished")
+                    assert page.locator("#stream-feed li.new-alert").count() == 1
                     assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
                 token = secrets.token_hex(32)
                 with serve(lab_handler(token)) as url:
@@ -64,6 +67,11 @@ def run():
                     assert got.value.status == 200
                     expect(page.locator("#priority")).to_have_text("High")
                     expect(page.locator("#response-title")).to_contain_text("HTTP 200")
+                    with page.expect_response(lambda res: res.url.endswith("/v1/demo-stream")) as streamed:
+                        page.click("#start-stream")
+                    assert streamed.value.status == 200
+                    expect(page.locator("#stream-state")).to_contain_text("Finished", timeout=12000)
+                    assert page.locator("#stream-feed li.new-alert").count() == 1
                 assert not errors, errors
                 page.close()
                 print(f"Integration lab passed at {width} × {height} (fixture mode and live HTTP).")

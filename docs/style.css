@@ -232,3 +232,6 @@ dialog h2 { font-size: 2.35rem; }
 .draft-review p,.draft-review a{font-size:.85rem;line-height:1.5}
 .draft-review blockquote{border-left:3px solid #8fa49a;margin:.55rem 0 .8rem;padding-left:.75rem;color:var(--ink);white-space:pre-line}
 #draft-verdict{font-weight:700;text-transform:capitalize}#draft-screen{margin:.5rem 0;color:var(--muted)}
+
+#review-owner{width:100%;max-width:24rem;border:1px solid var(--line);border-radius:5px;background:#fff;color:var(--ink);padding:.58rem;font:inherit}
+.impact-note{font-size:.83rem;color:var(--muted);margin:.4rem 0 .8rem}

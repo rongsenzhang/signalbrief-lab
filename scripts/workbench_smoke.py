@@ -42,6 +42,11 @@ def check_journey(page, base_url, mobile):
     expect(page.locator("#manager")).to_have_attribute("aria-pressed", "true")
     expect(page.locator("#brief-body")).to_contain_text("without the owner's knowledge")
 
+    page.locator("#draft-review summary").click()
+    expect(page.locator("#draft-verdict")).to_have_text("supported with omission")
+    expect(page.locator("#draft-text")).not_to_be_empty()
+    expect(page.locator("#draft-explanation")).to_contain_text("E1012")
+    page.select_option("#review-owner", label="Service desk")
     note = "Use the known contact route and reconcile the disputed sign-in."
     page.locator("#dispositions label").filter(has_text="Escalate").click()
     page.locator("#review-note").fill(note)
@@ -56,7 +61,7 @@ def check_journey(page, base_url, mobile):
         path = Path(directory) / download.suggested_filename
         download.save_as(path)
         report = path.read_text(encoding="utf-8")
-    for text in ("Priority: High", "E1012, E1013", "Disposition: Escalate", "Review state: Saved", note):
+    for text in ("Priority: High", "E1012, E1013", "Disposition: Escalate", "Review state: Saved", "Next review owner: Service desk", "Confirmed customer impact: Unknown", note):
         assert text in report, f"Missing from downloaded handover: {text}"
     saved_url = page.url
     assert "case=SB-101" in saved_url and "step=3" in saved_url
@@ -78,6 +83,7 @@ def check_journey(page, base_url, mobile):
     expect(page.locator("#case-ref")).to_have_text("SB-101")
     expect(page.locator("#step-count")).to_have_text("Event 3 / 3")
     expect(page.locator("#review-info")).to_contain_text("Escalate")
+    expect(page.locator("#review-owner")).to_have_value("Service desk")
     expect(page.locator("#review-note")).to_have_value(note)
     page.locator("#guide-open").click()
     expect(page.get_by_role("dialog", name="Field guide")).to_be_visible()

@@ -1,0 +1,295 @@
+{
+  "schema_version": 1,
+  "source": "fixtures/stream-demo.ndjson",
+  "rows": [
+    {
+      "input": {
+        "scope": "ACCESS-A",
+        "id": "E7001",
+        "time": "2026-11-16T09:00:00Z",
+        "signal": "session_opened"
+      },
+      "output": {
+        "status": "accepted",
+        "scope": "ACCESS-A",
+        "event_id": "E7001",
+        "time": "2026-11-16T09:00:00Z",
+        "signal": "session_opened",
+        "source": "Identity provider",
+        "text": "A new sign-in session was accepted for the same example account.",
+        "priority": "Review",
+        "previous_priority": null,
+        "transition": {
+          "from": null,
+          "to": "Review"
+        },
+        "alert": false,
+        "rule": "identity_one",
+        "reason": "The available access evidence does not meet a corroboration rule.",
+        "evidence_ids": [
+          "E7001"
+        ]
+      }
+    },
+    {
+      "input": {
+        "scope": "DEVICE-A",
+        "id": "E7101",
+        "time": "2026-11-16T09:01:00Z",
+        "signal": "endpoint_block"
+      },
+      "output": {
+        "status": "accepted",
+        "scope": "DEVICE-A",
+        "event_id": "E7101",
+        "time": "2026-11-16T09:01:00Z",
+        "signal": "endpoint_block",
+        "source": "Endpoint control",
+        "text": "Protection on the example workstation blocked an application process.",
+        "priority": "Review",
+        "previous_priority": null,
+        "transition": {
+          "from": null,
+          "to": "Review"
+        },
+        "alert": false,
+        "rule": "endpoint_review",
+        "reason": "The endpoint evidence has no independent confirmation of continued activity.",
+        "evidence_ids": [
+          "E7101"
+        ]
+      }
+    },
+    {
+      "input": {
+        "scope": "DEVICE-A",
+        "id": "E7102",
+        "time": "2026-11-16T09:02:00Z",
+        "signal": "endpoint_note"
+      },
+      "output": {
+        "status": "accepted",
+        "scope": "DEVICE-A",
+        "event_id": "E7102",
+        "time": "2026-11-16T09:02:00Z",
+        "signal": "endpoint_note",
+        "source": "Endpoint control",
+        "text": "The workstation policy recorded a second blocked application event.",
+        "priority": "Review",
+        "previous_priority": "Review",
+        "transition": null,
+        "alert": false,
+        "rule": "endpoint_review",
+        "reason": "The endpoint evidence has no independent confirmation of continued activity.",
+        "evidence_ids": [
+          "E7102"
+        ]
+      }
+    },
+    {
+      "input": {
+        "scope": "ACCESS-A",
+        "id": "E7002",
+        "time": "2026-11-16T09:15:00Z",
+        "signal": "owner_disputes"
+      },
+      "output": {
+        "status": "accepted",
+        "scope": "ACCESS-A",
+        "event_id": "E7002",
+        "time": "2026-11-16T09:15:00Z",
+        "signal": "owner_disputes",
+        "source": "Service desk",
+        "text": "The account owner reported that they did not recognise this sign-in session.",
+        "priority": "High",
+        "previous_priority": "Review",
+        "transition": {
+          "from": "Review",
+          "to": "High"
+        },
+        "alert": true,
+        "rule": "identity_high",
+        "reason": "The identity provider recorded a new session and the account owner independently disputed it.",
+        "evidence_ids": [
+          "E7001",
+          "E7002"
+        ]
+      }
+    },
+    {
+      "input": {
+        "scope": "ACCESS-A",
+        "id": "E7002",
+        "time": "2026-11-16T09:15:00Z",
+        "signal": "owner_disputes"
+      },
+      "output": {
+        "status": "duplicate",
+        "scope": "ACCESS-A",
+        "event_id": "E7002"
+      }
+    },
+    {
+      "input": {
+        "scope": "DEVICE-A",
+        "id": "E7103",
+        "time": "2026-11-16T09:16:01Z",
+        "signal": "process_observed"
+      },
+      "output": {
+        "status": "accepted",
+        "scope": "DEVICE-A",
+        "event_id": "E7103",
+        "time": "2026-11-16T09:16:01Z",
+        "signal": "process_observed",
+        "source": "Device inventory",
+        "text": "A separate inventory check observed the same application process running on the workstation.",
+        "priority": "Review",
+        "previous_priority": "Review",
+        "transition": null,
+        "alert": false,
+        "rule": "endpoint_review",
+        "reason": "The endpoint evidence has no independent confirmation of continued activity.",
+        "evidence_ids": [
+          "E7103"
+        ]
+      }
+    },
+    {
+      "input": {
+        "scope": "ACCESS-A",
+        "id": "E7003",
+        "time": "2026-11-16T09:07:00Z",
+        "signal": "owner_confirms"
+      },
+      "output": {
+        "status": "rejected",
+        "code": "late",
+        "scope": "ACCESS-A",
+        "event_id": "E7003"
+      }
+    },
+    {
+      "input": {
+        "scope": "DEVICE-A",
+        "id": "E7102",
+        "time": "2026-11-16T09:02:00Z",
+        "signal": "process_observed"
+      },
+      "output": {
+        "status": "rejected",
+        "code": "conflict",
+        "scope": "DEVICE-A",
+        "event_id": "E7102"
+      }
+    }
+  ],
+  "contract_checks": [
+    {
+      "name": "Owner disputes recent session",
+      "scope": "ACCESS-A",
+      "events": 2,
+      "expected_priority": "High",
+      "observed_priority": "High",
+      "expected_alert_seconds": [
+        300
+      ],
+      "observed_alert_seconds": [
+        300
+      ]
+    },
+    {
+      "name": "Owner confirms recent session",
+      "scope": "ACCESS-A",
+      "events": 2,
+      "expected_priority": "Routine",
+      "observed_priority": "Routine",
+      "expected_alert_seconds": [],
+      "observed_alert_seconds": []
+    },
+    {
+      "name": "Owner report at inclusive boundary",
+      "scope": "ACCESS-A",
+      "events": 2,
+      "expected_priority": "High",
+      "observed_priority": "High",
+      "expected_alert_seconds": [
+        900
+      ],
+      "observed_alert_seconds": [
+        900
+      ]
+    },
+    {
+      "name": "Owner report beyond boundary",
+      "scope": "ACCESS-A",
+      "events": 2,
+      "expected_priority": "Review",
+      "observed_priority": "Review",
+      "expected_alert_seconds": [],
+      "observed_alert_seconds": []
+    },
+    {
+      "name": "Owner dispute without identity-provider record",
+      "scope": "ACCESS-A",
+      "events": 1,
+      "expected_priority": "Review",
+      "observed_priority": "Review",
+      "expected_alert_seconds": [],
+      "observed_alert_seconds": []
+    },
+    {
+      "name": "Two readings from the same device control",
+      "scope": "DEVICE-A",
+      "events": 2,
+      "expected_priority": "Review",
+      "observed_priority": "Review",
+      "expected_alert_seconds": [],
+      "observed_alert_seconds": []
+    },
+    {
+      "name": "Independent process observation",
+      "scope": "DEVICE-A",
+      "events": 3,
+      "expected_priority": "High",
+      "observed_priority": "High",
+      "expected_alert_seconds": [
+        200
+      ],
+      "observed_alert_seconds": [
+        200
+      ]
+    },
+    {
+      "name": "Restored service copy",
+      "scope": "BACKUP-A",
+      "events": 3,
+      "expected_priority": "Routine",
+      "observed_priority": "Routine",
+      "expected_alert_seconds": [],
+      "observed_alert_seconds": []
+    },
+    {
+      "name": "Monitoring resumes after a gap",
+      "scope": "FEED-A",
+      "events": 3,
+      "expected_priority": "Review",
+      "observed_priority": "Review",
+      "expected_alert_seconds": [],
+      "observed_alert_seconds": []
+    },
+    {
+      "name": "Conflicting owner reports",
+      "scope": "ACCESS-A",
+      "events": 3,
+      "expected_priority": "High",
+      "observed_priority": "High",
+      "expected_alert_seconds": [
+        120
+      ],
+      "observed_alert_seconds": [
+        120
+      ]
+    }
+  ]
+}

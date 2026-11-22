@@ -1,0 +1,12 @@
+[
+  {"name":"Owner disputes recent session","scope":"ACCESS-A","sequence":[[0,"session_opened"],[300,"owner_disputes"]],"final":"High","alert_seconds":[300]},
+  {"name":"Owner confirms recent session","scope":"ACCESS-A","sequence":[[0,"session_opened"],[300,"owner_confirms"]],"final":"Routine","alert_seconds":[]},
+  {"name":"Owner report at inclusive boundary","scope":"ACCESS-A","sequence":[[0,"session_opened"],[900,"owner_disputes"]],"final":"High","alert_seconds":[900]},
+  {"name":"Owner report beyond boundary","scope":"ACCESS-A","sequence":[[0,"session_opened"],[901,"owner_disputes"]],"final":"Review","alert_seconds":[]},
+  {"name":"Owner dispute without identity-provider record","scope":"ACCESS-A","sequence":[[0,"owner_disputes"]],"final":"Review","alert_seconds":[]},
+  {"name":"Two readings from the same device control","scope":"DEVICE-A","sequence":[[0,"endpoint_block"],[100,"endpoint_note"]],"final":"Review","alert_seconds":[]},
+  {"name":"Independent process observation","scope":"DEVICE-A","sequence":[[0,"endpoint_block"],[100,"endpoint_note"],[200,"process_observed"]],"final":"High","alert_seconds":[200]},
+  {"name":"Restored service copy","scope":"BACKUP-A","sequence":[[0,"backup_late"],[60,"restore_pending"],[500,"restore_verified"]],"final":"Routine","alert_seconds":[]},
+  {"name":"Monitoring resumes after a gap","scope":"FEED-A","sequence":[[0,"monitor_gap"],[15,"vague_notice"],[90,"feed_resumed"]],"final":"Review","alert_seconds":[]},
+  {"name":"Conflicting owner reports","scope":"ACCESS-A","sequence":[[0,"session_opened"],[40,"owner_confirms"],[120,"owner_disputes"]],"final":"High","alert_seconds":[120]}
+]
