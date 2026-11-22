@@ -1,0 +1,12 @@
+:root{color-scheme:light;--ink:#102638;--teal:#11675d;--line:#c7d4ce;--paper:#f4f7f4}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:1rem/1.6 system-ui,sans-serif}
+header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem max(5vw,1rem);background:var(--ink);color:white}
+header span, footer{font-size:.88rem}.brand{display:flex;align-items:center;gap:.6rem;font-weight:750;color:white;text-decoration:none}
+main{max-width:73rem;margin:0 auto;padding:2.2rem max(4vw,1rem)}a{color:var(--teal)}
+h1,h2,h3{line-height:1.18}h1{max-width:17ch;font:600 clamp(2.5rem,5vw,4.2rem)/1.02 Georgia,serif;letter-spacing:-.045em;margin:1.25rem 0 .6rem}.intro{max-width:58ch;font-size:1.12rem;margin:0 0 2rem}
+.panels{display:grid;grid-template-columns:1.2fr 1fr;gap:1.1rem;align-items:start}section{background:white;border:1px solid var(--line);border-radius:.5rem;padding:clamp(1rem,2.5vw,1.75rem);min-width:0}h2{margin:0 0 1rem;font-size:1.25rem}h3{font-size:1.05rem}
+.fields,.controls,footer{display:flex;gap:.75rem;flex-wrap:wrap}.fields label{flex:2 1 12rem;font-size:.9rem;font-weight:620;min-width:0}.fields label+label{flex:1 1 7rem}select,button{font:inherit;min-height:2.8rem;border-radius:.35rem;padding:.5rem .7rem}select{color:var(--ink);display:block;width:100%;margin-top:.25rem;border:1px solid var(--line);background:white}
+button{background:var(--teal);border:1px solid var(--teal);color:white;font-weight:650;cursor:pointer}button:disabled{opacity:.5;cursor:default}#cancel{background:white;color:var(--teal)}:focus-visible{outline:3px solid #b35e16;outline-offset:3px}
+ol{padding:0;list-style:none;margin:0}li{border-top:1px solid var(--line);padding:.65rem 0}li strong{display:block;font:.85rem/1.4 ui-monospace,monospace;color:var(--teal)}.state{color:var(--teal);font-weight:600;min-height:1.5em}
+blockquote{margin:.7rem 0;border-left:3px solid var(--teal);padding-left:.75rem}#trace{font-size:.88rem}footer{justify-content:space-between;align-items:center;margin-top:1.4rem}button[hidden],[hidden]{display:none}
+@media(max-width:46rem){.panels{grid-template-columns:1fr}main{padding-top:1.3rem}}
