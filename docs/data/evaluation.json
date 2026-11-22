@@ -1,0 +1,277 @@
+{
+  "version": "1.0.0",
+  "routing": {
+    "model": "multinomial naive Bayes with add-one smoothing",
+    "score_meaning": "Highest closed-set topic posterior from this model. Uncalibrated. It does not estimate incident probability.",
+    "abstention_threshold": 0.55,
+    "train_counts": {
+      "Identity": 12,
+      "Endpoint": 12,
+      "Service continuity": 12,
+      "Telemetry": 12
+    },
+    "test_counts": {
+      "Identity": 6,
+      "Endpoint": 6,
+      "Service continuity": 6,
+      "Telemetry": 6
+    },
+    "test_groups": 12,
+    "test_size": 24,
+    "confusion": {
+      "Identity": {
+        "Identity": 6
+      },
+      "Endpoint": {
+        "Endpoint": 6
+      },
+      "Service continuity": {
+        "Service continuity": 6
+      },
+      "Telemetry": {
+        "Telemetry": 5,
+        "Uncertain": 1
+      }
+    },
+    "accuracy": 0.9583,
+    "macro_f1": 0.9773,
+    "majority_class_accuracy": 0.25,
+    "rows": [
+      {
+        "text": "An account check ended with refused credentials.",
+        "group": "credential-check",
+        "expected": "Identity",
+        "label": "Identity",
+        "score": 0.8687
+      },
+      {
+        "text": "A user disputed an unfamiliar login.",
+        "group": "credential-check",
+        "expected": "Identity",
+        "label": "Identity",
+        "score": 0.8307
+      },
+      {
+        "text": "The owner verified access on their session.",
+        "group": "account-ownership",
+        "expected": "Identity",
+        "label": "Identity",
+        "score": 0.8105
+      },
+      {
+        "text": "A colleague recognised their sign-in.",
+        "group": "account-ownership",
+        "expected": "Identity",
+        "label": "Identity",
+        "score": 0.7542
+      },
+      {
+        "text": "Directory access was refused again.",
+        "group": "identity-paraphrase",
+        "expected": "Identity",
+        "label": "Identity",
+        "score": 0.8408
+      },
+      {
+        "text": "The account holder called about an access anomaly.",
+        "group": "identity-paraphrase",
+        "expected": "Identity",
+        "label": "Identity",
+        "score": 0.9135
+      },
+      {
+        "text": "A workstation control prevented the same binary.",
+        "group": "device-policy",
+        "expected": "Endpoint",
+        "label": "Endpoint",
+        "score": 0.8336
+      },
+      {
+        "text": "Inventory flagged unexpected workstation activity.",
+        "group": "device-policy",
+        "expected": "Endpoint",
+        "label": "Endpoint",
+        "score": 0.8825
+      },
+      {
+        "text": "An endpoint observer saw the application return.",
+        "group": "host-observation",
+        "expected": "Endpoint",
+        "label": "Endpoint",
+        "score": 0.8882
+      },
+      {
+        "text": "Our desktop protection stopped an application.",
+        "group": "host-observation",
+        "expected": "Endpoint",
+        "label": "Endpoint",
+        "score": 0.843
+      },
+      {
+        "text": "The laptop has an unexpected process.",
+        "group": "endpoint-paraphrase",
+        "expected": "Endpoint",
+        "label": "Endpoint",
+        "score": 0.6206
+      },
+      {
+        "text": "A device flagged a newly launched executable.",
+        "group": "endpoint-paraphrase",
+        "expected": "Endpoint",
+        "label": "Endpoint",
+        "score": 0.6625
+      },
+      {
+        "text": "The recovery checkpoint passed the new exercise.",
+        "group": "continuity-policy",
+        "expected": "Service continuity",
+        "label": "Service continuity",
+        "score": 0.8397
+      },
+      {
+        "text": "The restore verification missed its window.",
+        "group": "continuity-policy",
+        "expected": "Service continuity",
+        "label": "Service continuity",
+        "score": 0.9454
+      },
+      {
+        "text": "An overdue backup is awaiting verification.",
+        "group": "copy-validation",
+        "expected": "Service continuity",
+        "label": "Service continuity",
+        "score": 0.7888
+      },
+      {
+        "text": "The latest storage copy was late.",
+        "group": "copy-validation",
+        "expected": "Service continuity",
+        "label": "Service continuity",
+        "score": 0.8999
+      },
+      {
+        "text": "No usable recovery point is confirmed yet.",
+        "group": "continuity-paraphrase",
+        "expected": "Service continuity",
+        "label": "Service continuity",
+        "score": 0.8676
+      },
+      {
+        "text": "The service backup was delayed by its job queue.",
+        "group": "continuity-paraphrase",
+        "expected": "Service continuity",
+        "label": "Service continuity",
+        "score": 0.9459
+      },
+      {
+        "text": "The collector stopped delivering records.",
+        "group": "coverage-loss",
+        "expected": "Telemetry",
+        "label": "Telemetry",
+        "score": 0.9129
+      },
+      {
+        "text": "Monitoring coverage was interrupted.",
+        "group": "coverage-loss",
+        "expected": "Telemetry",
+        "label": "Telemetry",
+        "score": 0.7615
+      },
+      {
+        "text": "The missing heartbeat arrived late.",
+        "group": "collection-resumption",
+        "expected": "Telemetry",
+        "label": "Telemetry",
+        "score": 0.8121
+      },
+      {
+        "text": "The feed observer received new records.",
+        "group": "collection-resumption",
+        "expected": "Telemetry",
+        "label": "Telemetry",
+        "score": 0.9631
+      },
+      {
+        "text": "The feed stopped updating earlier today.",
+        "group": "telemetry-paraphrase",
+        "expected": "Telemetry",
+        "label": "Telemetry",
+        "score": 0.7997
+      },
+      {
+        "text": "There is a gap in collection.",
+        "group": "telemetry-paraphrase",
+        "expected": "Telemetry",
+        "label": "Uncertain",
+        "score": 0.4218
+      }
+    ],
+    "low_information_probes": [
+      {
+        "text": "Something unusual happened.",
+        "expected": "Uncertain",
+        "label": "Uncertain",
+        "score": 0.25
+      },
+      {
+        "text": "Review requested.",
+        "expected": "Uncertain",
+        "label": "Uncertain",
+        "score": 0.25
+      },
+      {
+        "text": "A message arrived.",
+        "expected": "Uncertain",
+        "label": "Uncertain",
+        "score": 0.4218
+      },
+      {
+        "text": "State changed.",
+        "expected": "Uncertain",
+        "label": "Uncertain",
+        "score": 0.25
+      }
+    ],
+    "mixed_topic_probes": [
+      {
+        "text": "The backup agent lost its heartbeat.",
+        "expected": "Telemetry",
+        "label": "Service continuity",
+        "score": 0.6704
+      },
+      {
+        "text": "Access monitor lost its heartbeat.",
+        "expected": "Telemetry",
+        "label": "Uncertain",
+        "score": 0.4797
+      },
+      {
+        "text": "Device reported its user recognised a new sign-in.",
+        "expected": "Identity",
+        "label": "Identity",
+        "score": 0.7961
+      },
+      {
+        "text": "The monitoring agent saw a process returned on a workstation.",
+        "expected": "Endpoint",
+        "label": "Endpoint",
+        "score": 0.8961
+      }
+    ],
+    "limits": "Manually authored synthetic wording groups in English. Training never consumes held-out phrases. Small test, shared domain vocabulary and mixed-topic failures limit generalisation. Diagnostic probes are separate from the test."
+  },
+  "benchmark": {
+    "events": 1000000,
+    "cases": 352942,
+    "scenario_families": 6,
+    "seconds": 9.156,
+    "events_per_second": 109222,
+    "sampled_cases_for_latency": 4096,
+    "per_case_p50_ms": 0.026,
+    "per_case_p95_ms": 0.0302,
+    "machine": "arm64",
+    "system": "Darwin",
+    "python": "3.9.6",
+    "limits": "Single process, one caller, warm model. Repeats six short synthetic patterns (last may be truncated), including input validation, NLP, rules and brief creation. Latency percentiles use a uniform case reservoir (maximum 4,096). Excludes HTTP, UI, LLM and I/O. Throughput is a host-specific engineering measurement."
+  }
+}

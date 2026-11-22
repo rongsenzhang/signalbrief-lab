@@ -1,0 +1,555 @@
+{
+  "version": "1.0.0",
+  "scenarios": [
+    {
+      "id": "SB-101",
+      "title": "Unrecognised sign-in",
+      "service": "Staff access",
+      "description": "Review access records for a single staff account.",
+      "scope": "ACCESS-A",
+      "events": [
+        {
+          "id": "E1011",
+          "time": "2026-11-16T09:00:00Z",
+          "source": "Access gateway",
+          "text": "Several sign-in requests for the example account were declined.",
+          "signal": "access_declined"
+        },
+        {
+          "id": "E1012",
+          "time": "2026-11-16T09:03:00Z",
+          "source": "Identity provider",
+          "text": "A new sign-in session was accepted for the same example account.",
+          "signal": "session_opened"
+        },
+        {
+          "id": "E1013",
+          "time": "2026-11-16T09:07:00Z",
+          "source": "Service desk",
+          "text": "The account owner reported that they did not recognise this sign-in session.",
+          "signal": "owner_disputes"
+        }
+      ],
+      "frames": [
+        {
+          "event_ids": [
+            "E1011"
+          ],
+          "category": "Identity",
+          "priority": "Review",
+          "reason": "The available access evidence does not meet a corroboration rule.",
+          "analyst": "Several sign-in requests for the example account were declined. [E1011]",
+          "manager": "An account access event needs context.",
+          "unknown": "The evidence does not establish whether the access was expected.",
+          "next_step": "Check the identity-provider record and seek independent confirmation.",
+          "evidence_ids": [
+            "E1011"
+          ],
+          "model": {
+            "label": "Identity",
+            "score": 0.9846
+          },
+          "rule": "identity_one"
+        },
+        {
+          "event_ids": [
+            "E1011",
+            "E1012"
+          ],
+          "category": "Identity",
+          "priority": "Review",
+          "reason": "Rejected requests preceded a new session for this account.",
+          "analyst": "Several sign-in requests for the example account were declined. [E1011] A new sign-in session was accepted for the same example account. [E1012]",
+          "manager": "A new session followed several unsuccessful attempts. The owner's involvement needs checking.",
+          "unknown": "The records do not identify who opened the session.",
+          "next_step": "Check the session with the account owner through a known contact route.",
+          "evidence_ids": [
+            "E1011",
+            "E1012"
+          ],
+          "model": {
+            "label": "Identity",
+            "score": 0.9926
+          },
+          "rule": "identity_two"
+        },
+        {
+          "event_ids": [
+            "E1011",
+            "E1012",
+            "E1013"
+          ],
+          "category": "Identity",
+          "priority": "High",
+          "reason": "The identity provider recorded a new session and the account owner independently disputed it.",
+          "analyst": "A new sign-in session was accepted for the same example account. [E1012] The account owner reported that they did not recognise this sign-in session. [E1013]",
+          "manager": "Someone may have used the account without the owner's knowledge.",
+          "unknown": "Who opened the session and what they accessed remain unknown.",
+          "next_step": "Verify the report with the account owner through a known contact route and refer it to the duty analyst.",
+          "evidence_ids": [
+            "E1012",
+            "E1013"
+          ],
+          "model": {
+            "label": "Identity",
+            "score": 0.9818
+          },
+          "rule": "identity_high"
+        }
+      ]
+    },
+    {
+      "id": "SB-102",
+      "title": "Workstation policy alert",
+      "service": "Managed endpoints",
+      "description": "Review observations linked to one managed workstation.",
+      "scope": "DEVICE-A",
+      "events": [
+        {
+          "id": "E1021",
+          "time": "2026-11-16T10:00:00Z",
+          "source": "Endpoint control",
+          "text": "Protection on the example workstation blocked an application process.",
+          "signal": "endpoint_block"
+        },
+        {
+          "id": "E1022",
+          "time": "2026-11-16T10:03:00Z",
+          "source": "Endpoint control",
+          "text": "The workstation policy recorded a second blocked application event.",
+          "signal": "endpoint_note"
+        },
+        {
+          "id": "E1023",
+          "time": "2026-11-16T10:09:00Z",
+          "source": "Device inventory",
+          "text": "A separate inventory check observed the same application process running on the workstation.",
+          "signal": "process_observed"
+        }
+      ],
+      "frames": [
+        {
+          "event_ids": [
+            "E1021"
+          ],
+          "category": "Endpoint",
+          "priority": "Review",
+          "reason": "The endpoint evidence has no independent confirmation of continued activity.",
+          "analyst": "Protection on the example workstation blocked an application process. [E1021]",
+          "manager": "A device alert needs an independent check.",
+          "unknown": "The available record does not establish a persistent problem.",
+          "next_step": "Compare the protection record with a separate inventory observation.",
+          "evidence_ids": [
+            "E1021"
+          ],
+          "model": {
+            "label": "Endpoint",
+            "score": 0.9977
+          },
+          "rule": "endpoint_review"
+        },
+        {
+          "event_ids": [
+            "E1021",
+            "E1022"
+          ],
+          "category": "Endpoint",
+          "priority": "Review",
+          "reason": "The endpoint evidence has no independent confirmation of continued activity.",
+          "analyst": "The workstation policy recorded a second blocked application event. [E1022]",
+          "manager": "A device alert needs an independent check.",
+          "unknown": "The available record does not establish a persistent problem.",
+          "next_step": "Compare the protection record with a separate inventory observation.",
+          "evidence_ids": [
+            "E1022"
+          ],
+          "model": {
+            "label": "Endpoint",
+            "score": 0.9908
+          },
+          "rule": "endpoint_review"
+        },
+        {
+          "event_ids": [
+            "E1021",
+            "E1022",
+            "E1023"
+          ],
+          "category": "Endpoint",
+          "priority": "High",
+          "reason": "Independent inventory observed the same running process after endpoint protection recorded a block.",
+          "analyst": "Protection on the example workstation blocked an application process. [E1021] A separate inventory check observed the same application process running on the workstation. [E1023]",
+          "manager": "A device may still be running an application that its protection tried to stop.",
+          "unknown": "Application intent and impact on the device remain unknown.",
+          "next_step": "Pass both records to the endpoint analyst to verify the device's current state.",
+          "evidence_ids": [
+            "E1021",
+            "E1023"
+          ],
+          "model": {
+            "label": "Endpoint",
+            "score": 0.9914
+          },
+          "rule": "endpoint_high"
+        }
+      ]
+    },
+    {
+      "id": "SB-103",
+      "title": "Recovery window review",
+      "service": "Backup operations",
+      "description": "Check the available records for a scheduled recovery copy.",
+      "scope": "BACKUP-A",
+      "events": [
+        {
+          "id": "E1031",
+          "time": "2026-11-16T11:00:00Z",
+          "source": "Backup scheduler",
+          "text": "The example service's scheduled backup missed its usual recovery window.",
+          "signal": "backup_late"
+        },
+        {
+          "id": "E1032",
+          "time": "2026-11-16T11:11:00Z",
+          "source": "Recovery desk",
+          "text": "The restore verification has no result for the delayed backup.",
+          "signal": "restore_pending"
+        }
+      ],
+      "frames": [
+        {
+          "event_ids": [
+            "E1031"
+          ],
+          "category": "Service continuity",
+          "priority": "Review",
+          "reason": "The backup scheduler reported a missed recovery window.",
+          "analyst": "The example service's scheduled backup missed its usual recovery window. [E1031]",
+          "manager": "The latest recovery copy may be late.",
+          "unknown": "Recoverability for this window has not been verified.",
+          "next_step": "Ask the recovery owner for the result of a restore check.",
+          "evidence_ids": [
+            "E1031"
+          ],
+          "model": {
+            "label": "Service continuity",
+            "score": 0.9987
+          },
+          "rule": "backup_late"
+        },
+        {
+          "event_ids": [
+            "E1031",
+            "E1032"
+          ],
+          "category": "Service continuity",
+          "priority": "Review",
+          "reason": "A restore result is still pending for the delayed copy.",
+          "analyst": "The example service's scheduled backup missed its usual recovery window. [E1031] The restore verification has no result for the delayed backup. [E1032]",
+          "manager": "The service team is waiting for evidence that the copy is usable.",
+          "unknown": "The missing result does not establish that data was lost.",
+          "next_step": "Track the outstanding restore verification with the recovery owner.",
+          "evidence_ids": [
+            "E1031",
+            "E1032"
+          ],
+          "model": {
+            "label": "Service continuity",
+            "score": 0.8657
+          },
+          "rule": "backup_pending"
+        }
+      ]
+    },
+    {
+      "id": "SB-104",
+      "title": "Staff account access check",
+      "service": "Staff access",
+      "description": "Review a separate access case for a staff account.",
+      "scope": "ACCESS-A",
+      "events": [
+        {
+          "id": "E1041",
+          "time": "2026-11-16T13:00:00Z",
+          "source": "Access gateway",
+          "text": "Several sign-in requests for the example account were declined.",
+          "signal": "access_declined"
+        },
+        {
+          "id": "E1042",
+          "time": "2026-11-16T13:02:00Z",
+          "source": "Identity provider",
+          "text": "A new sign-in session was accepted for the same example account.",
+          "signal": "session_opened"
+        },
+        {
+          "id": "E1043",
+          "time": "2026-11-16T13:06:00Z",
+          "source": "Service desk",
+          "text": "The account owner confirmed that they recognised this sign-in session.",
+          "signal": "owner_confirms"
+        }
+      ],
+      "frames": [
+        {
+          "event_ids": [
+            "E1041"
+          ],
+          "category": "Identity",
+          "priority": "Review",
+          "reason": "The available access evidence does not meet a corroboration rule.",
+          "analyst": "Several sign-in requests for the example account were declined. [E1041]",
+          "manager": "An account access event needs context.",
+          "unknown": "The evidence does not establish whether the access was expected.",
+          "next_step": "Check the identity-provider record and seek independent confirmation.",
+          "evidence_ids": [
+            "E1041"
+          ],
+          "model": {
+            "label": "Identity",
+            "score": 0.9846
+          },
+          "rule": "identity_one"
+        },
+        {
+          "event_ids": [
+            "E1041",
+            "E1042"
+          ],
+          "category": "Identity",
+          "priority": "Review",
+          "reason": "Rejected requests preceded a new session for this account.",
+          "analyst": "Several sign-in requests for the example account were declined. [E1041] A new sign-in session was accepted for the same example account. [E1042]",
+          "manager": "A new session followed several unsuccessful attempts. The owner's involvement needs checking.",
+          "unknown": "The records do not identify who opened the session.",
+          "next_step": "Check the session with the account owner through a known contact route.",
+          "evidence_ids": [
+            "E1041",
+            "E1042"
+          ],
+          "model": {
+            "label": "Identity",
+            "score": 0.9926
+          },
+          "rule": "identity_two"
+        },
+        {
+          "event_ids": [
+            "E1041",
+            "E1042",
+            "E1043"
+          ],
+          "category": "Identity",
+          "priority": "Routine",
+          "reason": "The account owner recognised the session recorded by the identity provider.",
+          "analyst": "A new sign-in session was accepted for the same example account. [E1042] The account owner confirmed that they recognised this sign-in session. [E1043]",
+          "manager": "The owner confirmed the access they were asked about.",
+          "unknown": "The confirmation covers this session only.",
+          "next_step": "Record the owner's confirmation and review any other access alerts separately.",
+          "evidence_ids": [
+            "E1042",
+            "E1043"
+          ],
+          "model": {
+            "label": "Identity",
+            "score": 0.9948
+          },
+          "rule": "identity_recognised"
+        }
+      ]
+    },
+    {
+      "id": "SB-105",
+      "title": "Backup window review",
+      "service": "Backup operations",
+      "description": "Review the assurance records for a scheduled backup.",
+      "scope": "BACKUP-A",
+      "events": [
+        {
+          "id": "E1051",
+          "time": "2026-11-16T14:00:00Z",
+          "source": "Backup scheduler",
+          "text": "The example service's scheduled backup missed its usual recovery window.",
+          "signal": "backup_late"
+        },
+        {
+          "id": "E1052",
+          "time": "2026-11-16T14:03:00Z",
+          "source": "Recovery desk",
+          "text": "The restore verification has no result for the delayed backup.",
+          "signal": "restore_pending"
+        },
+        {
+          "id": "E1053",
+          "time": "2026-11-16T14:12:00Z",
+          "source": "Restore verifier",
+          "text": "An independent restore exercise verified a usable copy for this recovery window.",
+          "signal": "restore_verified"
+        }
+      ],
+      "frames": [
+        {
+          "event_ids": [
+            "E1051"
+          ],
+          "category": "Service continuity",
+          "priority": "Review",
+          "reason": "The backup scheduler reported a missed recovery window.",
+          "analyst": "The example service's scheduled backup missed its usual recovery window. [E1051]",
+          "manager": "The latest recovery copy may be late.",
+          "unknown": "Recoverability for this window has not been verified.",
+          "next_step": "Ask the recovery owner for the result of a restore check.",
+          "evidence_ids": [
+            "E1051"
+          ],
+          "model": {
+            "label": "Service continuity",
+            "score": 0.9987
+          },
+          "rule": "backup_late"
+        },
+        {
+          "event_ids": [
+            "E1051",
+            "E1052"
+          ],
+          "category": "Service continuity",
+          "priority": "Review",
+          "reason": "A restore result is still pending for the delayed copy.",
+          "analyst": "The example service's scheduled backup missed its usual recovery window. [E1051] The restore verification has no result for the delayed backup. [E1052]",
+          "manager": "The service team is waiting for evidence that the copy is usable.",
+          "unknown": "The missing result does not establish that data was lost.",
+          "next_step": "Track the outstanding restore verification with the recovery owner.",
+          "evidence_ids": [
+            "E1051",
+            "E1052"
+          ],
+          "model": {
+            "label": "Service continuity",
+            "score": 0.8657
+          },
+          "rule": "backup_pending"
+        },
+        {
+          "event_ids": [
+            "E1051",
+            "E1052",
+            "E1053"
+          ],
+          "category": "Service continuity",
+          "priority": "Routine",
+          "reason": "An independent restore exercise verified a usable copy for the reported window.",
+          "analyst": "The example service's scheduled backup missed its usual recovery window. [E1051] An independent restore exercise verified a usable copy for this recovery window. [E1053]",
+          "manager": "The service team has confirmed it can recover the tested copy.",
+          "unknown": "The exercise covers the tested copy only.",
+          "next_step": "Attach the verification result and record the scheduling delay.",
+          "evidence_ids": [
+            "E1051",
+            "E1053"
+          ],
+          "model": {
+            "label": "Service continuity",
+            "score": 0.9993
+          },
+          "rule": "backup_verified"
+        }
+      ]
+    },
+    {
+      "id": "SB-106",
+      "title": "Monitoring coverage check",
+      "service": "Service assurance",
+      "description": "Assess the available evidence for a service monitoring feed.",
+      "scope": "FEED-A",
+      "events": [
+        {
+          "id": "E1061",
+          "time": "2026-11-16T15:00:00Z",
+          "source": "Feed monitor",
+          "text": "The alert collector reported a gap in telemetry for the example service.",
+          "signal": "monitor_gap"
+        },
+        {
+          "id": "E1062",
+          "time": "2026-11-16T15:02:00Z",
+          "source": "Support queue",
+          "text": "Review requested.",
+          "signal": "vague_notice"
+        },
+        {
+          "id": "E1063",
+          "time": "2026-11-16T15:12:00Z",
+          "source": "Feed monitor",
+          "text": "The monitoring feed resumed reporting after the gap.",
+          "signal": "feed_resumed"
+        }
+      ],
+      "frames": [
+        {
+          "event_ids": [
+            "E1061"
+          ],
+          "category": "Telemetry",
+          "priority": "Review",
+          "reason": "The monitor reported a gap in collection.",
+          "analyst": "The alert collector reported a gap in telemetry for the example service. [E1061]",
+          "manager": "Part of the service record is missing.",
+          "unknown": "The missing interval cannot establish what happened during it.",
+          "next_step": "Ask the monitoring owner to check coverage during the missing interval.",
+          "evidence_ids": [
+            "E1061"
+          ],
+          "model": {
+            "label": "Telemetry",
+            "score": 0.8278
+          },
+          "rule": "feed_gap"
+        },
+        {
+          "event_ids": [
+            "E1061",
+            "E1062"
+          ],
+          "category": "Uncertain",
+          "priority": "Review",
+          "reason": "The monitor reported a gap in collection.",
+          "analyst": "The alert collector reported a gap in telemetry for the example service. [E1061]",
+          "manager": "Part of the service record is missing.",
+          "unknown": "The missing interval cannot establish what happened during it.",
+          "next_step": "Ask the monitoring owner to check coverage during the missing interval.",
+          "evidence_ids": [
+            "E1061"
+          ],
+          "model": {
+            "label": "Uncertain",
+            "score": 0.25
+          },
+          "rule": "feed_gap"
+        },
+        {
+          "event_ids": [
+            "E1061",
+            "E1062",
+            "E1063"
+          ],
+          "category": "Telemetry",
+          "priority": "Review",
+          "reason": "The feed resumed after a recorded gap. Resumption does not fill the missing interval.",
+          "analyst": "The alert collector reported a gap in telemetry for the example service. [E1061] The monitoring feed resumed reporting after the gap. [E1063]",
+          "manager": "Monitoring is back, but the team still lacks part of the record.",
+          "unknown": "Events during the gap remain unknown.",
+          "next_step": "Record the coverage gap and ask whether the missing interval can be reconciled.",
+          "evidence_ids": [
+            "E1061",
+            "E1063"
+          ],
+          "model": {
+            "label": "Telemetry",
+            "score": 0.9921
+          },
+          "rule": "feed_return"
+        }
+      ]
+    }
+  ]
+}
