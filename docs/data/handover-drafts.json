@@ -1,8 +1,214 @@
 {
   "schema_version": 1,
-  "status": "pending",
+  "status": "ready",
   "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
   "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
   "protocol": "observed-handover/1",
-  "cases": {}
+  "input_sha256": "b7d00e5fe71453a51d2d3bc9ffe0bf1239e50b5b260dabd3f15e398a0d97b8b2",
+  "runtime": {
+    "engine": "PyTorch CPU",
+    "torch": "2.6.0+cpu",
+    "transformers": "4.51.3",
+    "precision": "float32",
+    "sampling": "greedy",
+    "max_new_tokens": 80,
+    "workflow_run": "45081319768",
+    "source_commit": "e05446e1da1c789c2c66626e77013ee364f80f67"
+  },
+  "cases": {
+    "SB-101": {
+      "sources": [
+        {
+          "id": "E1012",
+          "source": "Identity provider",
+          "text": "A new sign-in session was accepted for the same example account."
+        },
+        {
+          "id": "E1013",
+          "source": "Service desk",
+          "text": "The account owner reported that they did not recognise this sign-in session."
+        }
+      ],
+      "known_limit": "Who opened the session and what they accessed remain unknown.",
+      "rule": "identity_high",
+      "drafts": {
+        "manager": {
+          "text": "A new sign-in session was accepted for the example account. The account owner reported that they did not recognize this sign-in session.",
+          "status": "requires review",
+          "flags": [],
+          "prompt_sha256": "994083500a8351e44971e67e27b04db88740ab70a4117d28e71367ff45fab36e"
+        },
+        "analyst": {
+          "text": "E1012 indicates a successful sign-in attempt by an existing user, while E1013 reveals that the account owner encountered issues recognizing the sign-in session.",
+          "status": "requires review",
+          "flags": [],
+          "prompt_sha256": "9ca2253dd3b2c01d66f466dde8e7b24cec0dcdde9a6f9ec09ac07f971b1ce145"
+        }
+      }
+    },
+    "SB-102": {
+      "sources": [
+        {
+          "id": "E1021",
+          "source": "Endpoint control",
+          "text": "Protection on the example workstation blocked an application process."
+        },
+        {
+          "id": "E1023",
+          "source": "Device inventory",
+          "text": "A separate inventory check observed the same application process running on the workstation."
+        }
+      ],
+      "known_limit": "Application intent and impact on the device remain unknown.",
+      "rule": "endpoint_high",
+      "drafts": {
+        "manager": {
+          "text": "Endpoint protection was temporarily disabled due to an issue with the application process on the example workstation. The device inventory revealed that the same application process was active on the workstation. The intent remains unclear; however, it appears to be related to security measures against potential vulnerabilities in the application. Impact is minimal as the process is functioning normally without interruption.",
+          "status": "flagged",
+          "flags": [
+            "Check that the draft conveys the protection block",
+            "Check that the draft conveys the separate observation of a running process"
+          ],
+          "prompt_sha256": "cc98d31012a60151d19e3bf99ee0d0c4271e0e035af30fbc4b093573617bdd75"
+        },
+        "analyst": {
+          "text": "**Handover:** \n\nIn my role as the analyst overseeing the next shift, I have observed that endpoint protection was compromised on the example workstation, resulting in an application process being blocked. Additionally, a separate inventory check revealed that the same application process was running on the workstation, indicating potential device inventory issues. The analyst will continue to monitor these findings closely to ensure compliance and address any necessary corrective actions.",
+          "status": "flagged",
+          "flags": [
+            "Compromise or cause needs a source",
+            "Check for an incomplete or overlong response"
+          ],
+          "prompt_sha256": "2307d336d0ab38725fd29050cd011f8a3e63aa254df42f2ac41fb8bf68251dec"
+        }
+      }
+    },
+    "SB-103": {
+      "sources": [
+        {
+          "id": "E1031",
+          "source": "Backup scheduler",
+          "text": "The example service's scheduled backup missed its usual recovery window."
+        },
+        {
+          "id": "E1032",
+          "source": "Recovery desk",
+          "text": "The restore verification has no result for the delayed backup."
+        }
+      ],
+      "known_limit": "The missing result does not establish that data was lost.",
+      "rule": "backup_pending",
+      "drafts": {
+        "manager": {
+          "text": "The example service's scheduled backup failed to recover within its designated recovery window, leading to an unverified restore attempt. This indicates potential data loss, necessitating further investigation into the cause and resolution of the issue.",
+          "status": "flagged",
+          "flags": [
+            "A new intervention or instruction was introduced",
+            "Check that the draft conveys the missed window"
+          ],
+          "prompt_sha256": "9c74f942b8eefdc548efdc4f9351f564ed7c0725f2612bce6c2a60d24049f81f"
+        },
+        "analyst": {
+          "text": "**Handover:** \n\nIn response to the observation about the missing recovery window in the backup schedule for Example Service, I will inform the analyst that this issue indicates a potential delay in the scheduled backup process. Specifically, the recovery desk report shows that the restore verification did not yield any results for the delayed backup, suggesting that the system may have encountered an unexpected failure during the restoration phase. This discrepancy could",
+          "status": "flagged",
+          "flags": [
+            "Check that the draft conveys the outstanding check",
+            "Check for an incomplete or overlong response"
+          ],
+          "prompt_sha256": "c8df293a2e54a5914859ff26c92431f7f4a9e90eadcff161003237370b30ae04"
+        }
+      }
+    },
+    "SB-104": {
+      "sources": [
+        {
+          "id": "E1042",
+          "source": "Identity provider",
+          "text": "A new sign-in session was accepted for the same example account."
+        },
+        {
+          "id": "E1043",
+          "source": "Service desk",
+          "text": "The account owner confirmed that they recognised this sign-in session."
+        }
+      ],
+      "known_limit": "The confirmation covers this session only.",
+      "rule": "identity_recognised",
+      "drafts": {
+        "manager": {
+          "text": "A new sign-in session was accepted for the same example account. Account owner confirmed it was recognized.",
+          "status": "requires review",
+          "flags": [],
+          "prompt_sha256": "9ecc1b20314e355cf7b8a626540f6a5ac5829e368e25f6170c5261dcc268d47e"
+        },
+        "analyst": {
+          "text": "E1042 - An identity provider has successfully processed a new sign-in session for an existing example account.\nE1043 - The service desk confirms that the account owner recognized the sign-in session as valid.",
+          "status": "flagged",
+          "flags": [
+            "Possible reversal of the recorded finding"
+          ],
+          "prompt_sha256": "7f15351500167c89026f30da965a96f267f5b86a7e36c85d51f6eea90f6e23a6"
+        }
+      }
+    },
+    "SB-105": {
+      "sources": [
+        {
+          "id": "E1051",
+          "source": "Backup scheduler",
+          "text": "The example service's scheduled backup missed its usual recovery window."
+        },
+        {
+          "id": "E1053",
+          "source": "Restore verifier",
+          "text": "An independent restore exercise verified a usable copy for this recovery window."
+        }
+      ],
+      "known_limit": "The exercise covers the tested copy only.",
+      "rule": "backup_verified",
+      "drafts": {
+        "manager": {
+          "text": "The backup scheduler missed its typical recovery window due to an error in the scheduled backup. A separate restore verification confirmed that a usable copy existed within the specified recovery period.",
+          "status": "requires review",
+          "flags": [],
+          "prompt_sha256": "7926ee1fdc9b8db0b91787cb7ce4ab383c0c1d5350816734d09c039b6cb4e80a"
+        },
+        "analyst": {
+          "text": "Backup scheduler's example service's scheduled backup missed its usual recovery window due to an error in the scheduled backup process. Independent restore verifier confirmed that a usable copy existed within the specified recovery window.",
+          "status": "requires review",
+          "flags": [],
+          "prompt_sha256": "2885fb4347054f9f993af4dd0dea6f69e3471e82136b8203455e8d77c73c29e1"
+        }
+      }
+    },
+    "SB-106": {
+      "sources": [
+        {
+          "id": "E1061",
+          "source": "Feed monitor",
+          "text": "The alert collector reported a gap in telemetry for the example service."
+        },
+        {
+          "id": "E1063",
+          "source": "Feed monitor",
+          "text": "The monitoring feed resumed reporting after the gap."
+        }
+      ],
+      "known_limit": "Events during the gap remain unknown.",
+      "rule": "feed_return",
+      "drafts": {
+        "manager": {
+          "text": "The gap in telemetry was detected by the feed monitor, which alerted on this issue. After resuming monitoring, it was confirmed that the gap has been filled, indicating that the problem has been resolved. However, the exact cause remains unclear due to the lack of further events during the gap period.",
+          "status": "requires review",
+          "flags": [],
+          "prompt_sha256": "4514ed609b0a4451bd4cf365e984903b79ff495d2c615af942f6634bbd7f9628"
+        },
+        "analyst": {
+          "text": "The first observation indicates that there was an issue with the feed monitor's alert collection, specifically noting a gap in telemetry for the example service. The second observation states that the monitoring feed resumed reporting after the gap, suggesting that the gap may have been resolved.",
+          "status": "requires review",
+          "flags": [],
+          "prompt_sha256": "d351e2e2bce214cfc980ce4deb8f44e0fb9004f65050f57713b91c354468cdba"
+        }
+      }
+    }
+  }
 }

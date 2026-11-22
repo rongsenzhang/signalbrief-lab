@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "workflow_run": "45081319768",
+  "snapshot_sha256": "b649e315513cc0bf44a5b4b37f2cfa9ee0fea817e3fd400134caf26cde44b7f2",
+  "method": "AI-assisted editorial comparison against the recorded synthetic source packets. One unblinded review, no independent adjudication.",
+  "cases": {
+    "SB-101": {
+      "manager": {
+        "verdict": "supported with omission",
+        "note": "E1012 records an accepted session and E1013 records the owner’s dispute. The wording preserves both facts, but omits that the person who opened the session and their activity are unknown.",
+        "evidence_ids": [
+          "E1012",
+          "E1013"
+        ],
+        "draft_sha256": "662851deb33460133e030d4b7301572b7aad365e4f84527c2dfb89239756c52d"
+      },
+      "analyst": {
+        "verdict": "contains unsupported claims",
+        "note": "An “existing user” is presented as the person who signed in. E1012 identifies the account, not the person who used it. E1013 records a dispute, stronger than difficulty recognising a session.",
+        "evidence_ids": [
+          "E1012",
+          "E1013"
+        ],
+        "draft_sha256": "7e7856ae2fe9ff994608511f22394a86c051791915f8f0d000f1c971cc6da3dc"
+      }
+    },
+    "SB-102": {
+      "manager": {
+        "verdict": "contains unsupported claims",
+        "note": "E1021 records protection blocking a process. It does not say protection was disabled. E1023 shows the process later running. Normal operation, vulnerabilities and minimal impact are unsupported.",
+        "evidence_ids": [
+          "E1021",
+          "E1023"
+        ],
+        "draft_sha256": "248add1c4cef0601d96c75f5204e4bf02dd7d5f91c1ec42b87a0d8e7ee269a0a"
+      },
+      "analyst": {
+        "verdict": "contains unsupported claims",
+        "note": "The block and later observation of a running process are supported. Neither E1021 nor E1023 establishes compromised protection, an inventory fault, or a commitment to a particular response.",
+        "evidence_ids": [
+          "E1021",
+          "E1023"
+        ],
+        "draft_sha256": "f6d2e1c266f8b408955755a881f612f0d1c763a332f9b07ef866e2d757b4076c"
+      }
+    },
+    "SB-103": {
+      "manager": {
+        "verdict": "contains unsupported claims",
+        "note": "E1031 records a missed backup window. E1032 records a missing verification result. Neither records a recovery failure or evidence of data loss.",
+        "evidence_ids": [
+          "E1031",
+          "E1032"
+        ],
+        "draft_sha256": "9286831edd2992839251e324234b0b9c06ec0d29b42c695fc84cac6d0d2f655d"
+      },
+      "analyst": {
+        "verdict": "contains unsupported claims",
+        "note": "The outstanding restore result is correctly mentioned. The explanation about an unexpected failure during restoration has no source, and the last sentence is cut off.",
+        "evidence_ids": [
+          "E1031",
+          "E1032"
+        ],
+        "draft_sha256": "5c559aa1dd0cbaec374c78da9679472a30f64f488bd9d638dfc4daf57b219804"
+      }
+    },
+    "SB-104": {
+      "manager": {
+        "verdict": "supported",
+        "note": "E1042 supports the accepted session. E1043 supports the owner’s recognition. The scope stays with that session.",
+        "evidence_ids": [
+          "E1042",
+          "E1043"
+        ],
+        "draft_sha256": "25266677633130d68ab06f98426d6c59f4017b7c3e4b8de04279aa3c556a6a22"
+      },
+      "analyst": {
+        "verdict": "supported with omission",
+        "note": "The two source references match. The recognition is the owner’s report via the desk. Keep “the owner recognised this session” to avoid suggesting an independent assurance of validity. The automated reversal warning is a false alert here.",
+        "evidence_ids": [
+          "E1042",
+          "E1043"
+        ],
+        "draft_sha256": "dd83a9577d2232baa0307c268f671623f9d3d6aefd967edec759d6ce0d2e9abb"
+      }
+    },
+    "SB-105": {
+      "manager": {
+        "verdict": "contains unsupported claims",
+        "note": "E1051 states the scheduler missed the window. Its cause was not recorded. E1053 verifies a usable copy for that window. Remove the claimed scheduling error.",
+        "evidence_ids": [
+          "E1051",
+          "E1053"
+        ],
+        "draft_sha256": "9c94a296dc2ab5d63be9f17ce6cce4f9f7ce6ffdd92e23fa2f6096f4028c86c7"
+      },
+      "analyst": {
+        "verdict": "contains unsupported claims",
+        "note": "E1053 supports a usable copy, but E1051 gives no cause for the missed window. The claimed error in the scheduling process goes beyond the evidence.",
+        "evidence_ids": [
+          "E1051",
+          "E1053"
+        ],
+        "draft_sha256": "8a651be3635f4a054f4993d8aa4ac1db30d27f46480dc7541c0c0803c55e83f2"
+      }
+    },
+    "SB-106": {
+      "manager": {
+        "verdict": "contains unsupported claims",
+        "note": "E1063 establishes that the feed resumed. It does not establish that earlier missing records were filled, the problem was resolved, or that no events occurred during the gap.",
+        "evidence_ids": [
+          "E1061",
+          "E1063"
+        ],
+        "draft_sha256": "8cc408e70f568afd9430cb71625c897f5a78629edc9674f3a706481d07c60ce9"
+      },
+      "analyst": {
+        "verdict": "contains unsupported claims",
+        "note": "E1061 and E1063 support a gap followed by resumed reporting. Even the hedged suggestion that the gap may have been resolved could imply retrospective recovery. That remains unknown.",
+        "evidence_ids": [
+          "E1061",
+          "E1063"
+        ],
+        "draft_sha256": "03c256fc21a00d5aeafda41c67b7b5bd64e7581e9e45a22b80fae0d9289f4019"
+      }
+    }
+  }
+}
