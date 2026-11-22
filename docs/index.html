@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#102d37">
+  <meta name="description" content="A defensive incident-review workbench. Replay synthetic telemetry, inspect evidence and prepare a handover.">
+  <title>Alert workbench · SignalBrief Lab</title>
+  <link rel="icon" href="mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#case">Skip to selected case</a>
+  <svg class="symbol-bank" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 6v12m8-12v12" stroke-width="4"/></symbol>
+    <symbol id="i-prev" viewBox="0 0 24 24"><path d="m14 6-6 6 6 6"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24"><path d="m10 6 6 6-6 6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 0 6m0-12v6h6"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M3 4.5c3-.7 6-.2 9 1.4 3-1.6 6-2.1 9-1.4v14c-3-.7-6-.2-9 1.4-3-1.6-6-2.1-9-1.4zM12 6v14"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m7 7-5 5 5 5m10-10 5 5-5 5m-4-14-2 18"/></symbol>
+    <symbol id="i-export" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5zM3 12l9 5 9-5M3 16l9 5 9-5"/></symbol>
+  </svg>
+  <header class="masthead">
+    <div class="wrap mast-inner">
+      <a class="brand" aria-label="SignalBrief Lab home" href="./"><img src="mark.svg" alt="" width="34" height="34">SignalBrief <span>Lab</span></a>
+      <nav aria-label="Project"><button class="nav-link" id="guide-open"><svg class="icon"><use href="#i-book"/></svg><span>Field guide</span></button><a class="nav-link" id="source-link" href="https://github.com/rongsenzhang/signalbrief-lab"><svg class="icon"><use href="#i-code"/></svg><span>Source</span></a></nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <div class="intro">
+      <div><div class="eyebrow title-kicker"><span class="short-rule"></span> Security operations</div><h1>Alert workbench</h1><p>Replay a case, inspect the evidence and prepare a handover.</p></div>
+      <div class="session"><span class="session-label">Case library</span><strong id="case-count">—</strong><span class="session-divider"></span><span class="session-label">Reviewed</span><strong id="review-count">—</strong></div>
+    </div>
+    <nav class="lab-navigation" aria-label="Workbench tools">
+      <a href="#case" aria-current="page">Case review</a>
+      <a href="model-lab.html" id="nav-model">Model lab</a>
+      <a href="integration.html" id="nav-api">API lab</a>
+    </nav>
+    <div id="loading" class="load-state" role="status">Opening the synthetic case library…</div>
+    <noscript><p>This interactive workbench needs JavaScript. The source repository includes the case data and training guide.</p></noscript>
+    <div class="desk" id="desk" hidden>
+      <aside>
+        <details class="queue" id="queue" open>
+          <summary><span class="heading-icon"><svg class="icon"><use href="#i-layers"/></svg> Case queue</span><span class="queue-count mono" id="queue-count"></span><svg class="icon summary-chevron"><use href="#i-down"/></svg></summary>
+          <div class="queue-body">
+            <label class="sr-only" for="queue-filter">Filter cases by review status</label>
+            <div class="select-wrap"><select id="queue-filter"><option value="all">All cases</option><option value="pending">Needs review</option><option value="reviewed">Reviewed</option></select><svg class="icon"><use href="#i-down"/></svg></div>
+            <div class="case-list" id="case-list" aria-label="Choose a case"></div>
+            <button class="filter-reset" type="button" id="reset-filter" hidden>Show all cases</button>
+          </div>
+        </details>
+        <div class="guidance"><span class="eyebrow">About this lab</span><p>Work from the events you can see. Each replay reveals evidence in order.</p><button type="button" id="guide-inline">Read the field guide</button></div>
+      </aside>
+      <section class="workspace" id="case" tabindex="-1" aria-labelledby="case-title">
+        <header class="case-header"><div class="case-meta"><span class="case-ref mono" id="case-ref"></span><span class="sep"></span><span id="case-service"></span></div><h2 id="case-title"></h2><p id="case-description"></p></header>
+        <section class="replay" aria-labelledby="replay-title">
+          <div class="replay-heading"><div><span class="eyebrow replay-kicker"><span class="telemetry-dot"></span>Synthetic telemetry</span><h3 id="replay-title">Evidence replay</h3></div><div class="replay-clock"><span class="eyebrow">Event time · UTC</span><span class="mono" id="event-time"></span></div></div>
+          <div class="trace-wrap"><svg id="trace" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Timeline of observed events"></svg></div>
+          <div class="replay-controls"><div class="controls-group"><button type="button" id="play" class="play"><svg class="icon"><use href="#i-play"/></svg><span>Play</span></button><button type="button" class="icon-button" id="previous" title="Previous event" aria-label="Previous event"><svg class="icon"><use href="#i-prev"/></svg></button><button type="button" class="icon-button step-forward" id="next" title="Next event" aria-label="Next event"><span>Next event</span><svg class="icon"><use href="#i-next"/></svg></button><button type="button" class="icon-button" id="restart" title="Restart replay" aria-label="Restart replay"><svg class="icon"><use href="#i-reset"/></svg></button></div><span id="step-count" class="frame-count mono" aria-live="polite" aria-atomic="true"></span></div>
+        </section>
+        <div class="analysis-grid">
+          <article class="card brief" aria-labelledby="brief-title">
+            <div class="card-top"><h3 id="brief-title">Case brief</h3><span id="priority" class="priority"></span></div>
+            <div class="roles" role="group" aria-label="Brief audience"><button id="analyst" aria-pressed="true">Analyst</button><button id="manager" aria-pressed="false">Service owner</button></div>
+            <p class="brief-main" id="brief-body"></p>
+            <div class="brief-section"><h4>What remains unknown</h4><p id="unknown"></p></div>
+            <div class="brief-section"><h4>Next check</h4><p id="next-step"></p></div>
+            <div class="brief-cites"><span>Supporting events</span><div id="cites"></div></div>
+            <div class="model-panel" aria-labelledby="model-heading"><h4 id="model-heading">Language model evidence</h4><div id="model-output"></div><a id="model-lab" href="model-lab.html">Open the model lab</a></div>
+            <details class="method"><summary>How this frame was assessed <svg class="icon"><use href="#i-down"/></svg></summary><div id="method-body"></div></details>
+          </article>
+          <article class="card ledger" aria-labelledby="ledger-title"><div class="card-top"><h3 id="ledger-title">Evidence ledger</h3><span id="ledger-count" class="small-count mono"></span></div><p class="subtle ledger-help">Observed events, newest first.</p><ol id="ledger"></ol></article>
+        </div>
+        <section class="card review" aria-labelledby="review-title">
+          <div class="card-top"><h3 id="review-title">Review &amp; handover</h3><span class="local-note">Browser-local</span></div>
+          <p class="subtle" id="review-info">Record your judgement for this point in the replay.</p>
+          <form id="review-form">
+            <fieldset><legend>Disposition</legend><div class="dispositions" id="dispositions"></div></fieldset>
+            <label class="note-label" for="review-note">Handover note <span>(optional, use fictional details)</span></label><textarea id="review-note" rows="2" maxlength="1500" placeholder="What should the next reviewer check?"></textarea>
+            <div class="review-actions"><button id="save" type="submit" class="primary" disabled><svg class="icon"><use href="#i-check"/></svg>Save review</button><button id="export" type="button" class="outline"><svg class="icon"><use href="#i-export"/></svg>Download handover</button></div>
+          </form>
+          <p class="feedback" role="status" id="feedback"></p>
+        </section>
+      </section>
+    </div>
+  </main>
+  <footer class="wrap"><span>SignalBrief Lab <span class="version">v1.0</span></span><span>Independent application project · Synthetic data</span></footer>
+  <dialog id="guide" aria-labelledby="guide-heading"><div class="dialog-top"><span class="eyebrow">SignalBrief Lab</span><button class="dialog-close" autofocus id="guide-close" aria-label="Close field guide"><svg class="icon"><use href="#i-close"/></svg></button></div><h2 id="guide-heading">Field guide</h2>
+    <ol class="guide-steps">
+      <li><strong>Replay an observation.</strong><p>Choose a case and select Next event. The ledger, priority and briefing update together.</p></li>
+      <li><strong>Trace the judgement.</strong><p>Select a supporting event to find the observation. Switch to Service owner to see the operational handover. Open the assessment details to inspect the model and rule reasoning.</p></li>
+      <li><strong>Make a decision.</strong><p>Record a disposition and save it at the current event. Download the Markdown handover to retain the evidence and review.</p></li>
+    </ol>
+    <p class="guide-scope">The cases are fictional. Replay advances through recorded observations. Decisions stay in this browser and apply only to their saved event position.</p>
+    <section class="guide-evaluation" id="guide-evaluation" hidden><h3>Measured results</h3><p id="guide-routing"></p><p id="guide-benchmark"></p></section>
+    <div class="guide-links"><a class="repo-guide" href="https://github.com/rongsenzhang/signalbrief-lab/blob/main/handbook/workshop.md">Training exercise</a><a class="repo-guide" href="https://github.com/rongsenzhang/signalbrief-lab/blob/main/reference/api.md">Python API contract</a><a class="repo-guide" href="https://github.com/rongsenzhang/signalbrief-lab/blob/main/handbook/role-mapping.md">KTP responsibilities</a><a class="repo-guide" href="https://github.com/rongsenzhang/signalbrief-lab/blob/main/handbook/research-note.md">Research note</a></div>
+  </dialog>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" type="image/svg+xml" href="mark.svg">
+  <title>Evidence selection · SignalBrief Lab</title>
+  <link rel="stylesheet" href="model/lab.css">
+</head>
+<body>
+  <header><a href="index.html" class="brand"><img src="mark.svg" width="30" height="30" alt="">SignalBrief Lab</a><span>Language model</span></header>
+  <main>
+    <a href="index.html" id="back">Back to case review</a>
+    <h1>Choose evidence for a handover</h1>
+    <p class="intro">See whether an instruction model can pick one observation that supports the finding. Inspect its choice alongside the original record.</p>
+    <div class="panels">
+      <section aria-labelledby="inputs"><h2 id="inputs">Available evidence</h2>
+        <div class="fields"><label>Case<select id="case" disabled></select></label><label>Replay step<select id="step" disabled></select></label></div>
+        <p id="reason"></p><ol id="events"></ol>
+      </section>
+      <section aria-labelledby="label"><h2 id="label">Run on this device</h2>
+        <p><strong>SmolLM2-135M-Instruct</strong> reads the observations twice in different orders. A selection requires both answers to identify the same source event.</p>
+        <p>The first run downloads 137 MB of model weights plus the browser runtime from Hugging Face and jsDelivr. Inference uses this device. The review workspace works without downloading these files.</p>
+        <div class="controls"><button type="button" id="run" disabled>Load model and run</button><button type="button" id="cancel" hidden>Cancel</button></div>
+        <p role="status" id="state" class="state">Loading case data…</p>
+        <article id="result" hidden>
+          <h3 id="outcome"></h3><blockquote id="excerpt"></blockquote><p id="trace"></p>
+        </article>
+      </section>
+    </div>
+    <footer><a href="model-card.md">Model card</a><span>Independent prototype · Synthetic events only</span></footer>
+  </main>
+  <script type="module" src="model/lab.js"></script>
+</body>
+</html>
