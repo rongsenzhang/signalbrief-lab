@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "source": {
+    "repository": "logpai/loghub",
+    "revision": "dd61d0952749ee7963bde24220d1be5ede023033",
+    "path": "OpenSSH/OpenSSH_2k.log_structured.csv",
+    "git_blob_sha1": "2ee6285ba8635e97a5f1f3148b8d126a40e2c4fd",
+    "bytes_sha256": "c0996a11545f4b94b435993760afa441a9e373f7bfc9e787afdb8e62f65acb4f"
+  },
+  "input_fields": [
+    "EventId",
+    "EventTemplate"
+  ],
+  "router": {
+    "type": "multinomial naive Bayes",
+    "abstention_threshold": 0.55,
+    "training_fixture_sha256": "39dc5087de2c3ac4d3c7e6f6df82f495be74eeaf4fd3b37ce2910159d23022ec"
+  },
+  "unique_template_coverage": {
+    "total": 27,
+    "routed": 17,
+    "abstained": 10,
+    "routing_coverage": 0.6296,
+    "abstention_rate": 0.3704,
+    "predicted_labels": {
+      "Identity": 17,
+      "Uncertain": 10
+    }
+  },
+  "row_weighted_coverage": {
+    "total": 2000,
+    "routed": 1062,
+    "abstained": 938,
+    "routing_coverage": 0.531,
+    "abstention_rate": 0.469,
+    "predicted_labels": {
+      "Identity": 1062,
+      "Uncertain": 938
+    }
+  },
+  "most_frequent_template_row_count": 413,
+  "interpretation": "Coverage counts a non-abstaining route. The source supplies no matching service-routing or incident labels."
+}
