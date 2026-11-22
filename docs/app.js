@@ -7,6 +7,8 @@
   const mobile = window.matchMedia("(max-width: 760px)");
   let cases = [];
   let languageModel = null;
+  let generatedDrafts = null;
+  let sourceReview = null;
   let selection = null;
   let step = 0;
   let audience = "analyst";
@@ -195,8 +197,33 @@
     return sample && observed().find(e => e.id === sample.selected_id && e.text === sample.extract);
   }
 
+  function showDraftComparison() {
+    const panel = byId("draft-review");
+    const packet = generatedDrafts?.cases?.[selection.id];
+    const draft = packet?.drafts?.[audience];
+    const review = sourceReview?.cases?.[selection.id]?.[audience];
+    const ids = frame().evidence_ids;
+    const valid = step === selection.frames.length - 1 && generatedDrafts?.status === "ready" &&
+      packet?.rule === frame().rule && packet.known_limit === frame().unknown &&
+      Array.isArray(packet.sources) && packet.sources.length === ids.length &&
+      packet.sources.every((row, index) => row.id === ids[index] &&
+        observed().some(event => event.id === row.id && event.text === row.text)) &&
+      typeof draft?.text === "string" && review && review.evidence_ids.join(",") === ids.join(",");
+    panel.hidden = !valid;
+    if (!valid) { panel.open = false; return; }
+    const role = audience === "analyst" ? "analyst" : "service owner";
+    byId("draft-attribution").textContent = "Original " + role + " draft · " + generatedDrafts.model_id;
+    byId("draft-text").textContent = draft.text;
+    byId("draft-verdict").textContent = review.verdict;
+    byId("draft-explanation").textContent = review.note;
+    byId("draft-cites").replaceChildren(...ids.map(citeButton));
+    byId("draft-screen").textContent = (draft.flags.length ? "Automatic screen: " + draft.flags.join(". ") + ". " :
+      "The automatic screen raised no flag. ") + "The source review was AI-assisted. Export uses the checked case brief.";
+  }
+
   function showBrief() {
     const f = frame();
+    showDraftComparison();
     byId("priority").textContent = f.priority;
     byId("priority").className = "priority " + f.priority.toLowerCase();
     byId("analyst").setAttribute("aria-pressed", String(audience === "analyst"));
@@ -425,6 +452,9 @@
     const valid = linked && Number.isInteger(requested) && requested >= 0 && requested < linked.frames.length;
     byId("nav-api").href = labUrl("integration.html");
     selectCase(linked || cases[0], valid ? requested : 0);
+    Promise.all([getData("data/handover-drafts.json"), getData("data/handover-review.json")])
+      .then(([raw, review]) => { generatedDrafts = raw; sourceReview = review; showDraftComparison(); })
+      .catch(() => { byId("draft-review").hidden = true; });
     getData("data/language-model.json").then(snapshot => { languageModel = snapshot; showBrief(); }).catch(() => {});
     getData("data/evaluation.json").then(({routing,benchmark}) => {
       const matched = Math.round(routing.test_size * routing.accuracy);
