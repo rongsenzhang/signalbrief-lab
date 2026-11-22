@@ -20,6 +20,21 @@ The generator uses Qwen2.5-0.5B-Instruct with a frozen model and tokenizer, CPU 
 
 The automated screen flags selected overclaims, possible reversals, missing expected concepts, new references and length problems. Text with no matching flag receives **requires review**. These lexical checks can miss unsupported claims and can over-flag negated or qualified statements. A model response of **ABSTAIN** is recorded separately. The twelve outputs share six authored scenarios. They do not establish a population error rate or performance on customer reports.
 
+## Recorded source review
+
+The [completed CPU inference run](https://github.com/rongsenzhang/signalbrief-lab/actions/runs/45081319768) produced twelve drafts. The [source review](../docs/data/handover-review.json) compares every raw completion with its evidence. It is an AI-assisted, unblinded editorial assessment. Nine drafts contain unsupported claims under this review. Of those, five received no automated flag. One additional draft received a false reversal warning. Two drafts preserve the core observations with an omission or wording caveat. One stays supported within the observed scope.
+
+| Case | Service owner’s draft | Analyst’s draft |
+| --- | --- | --- |
+| SB-101 · Unrecognised sign-in | Both events are supported. The person’s identity and activity remain unknown, which the draft omits. | “Existing user” assigns an identity unsupported by the session record. |
+| SB-102 · Workstation | Invents disabled protection, minimal impact and a vulnerability explanation. | Records both observations but adds compromised protection and possible inventory issues. |
+| SB-103 · Recovery window | Turns a missing restore result into a recovery failure and suggests data loss. | Introduces a speculative restoration failure and ends mid-sentence. |
+| SB-104 · Recognised sign-in | Gives a supported account of the owner recognising this session. | Identifies both sources. The owner’s recognition should retain its attribution. The automated reversal warning is a false alert. |
+| SB-105 · Tested copy | Reports the usable copy, but supplies an unsupported reason for the missed window. | Adds the same scheduling error as a cause. The scheduler gave no reason. |
+| SB-106 · Monitoring gap | Claims missing records were filled and the issue resolved. | Suggests the gap may have been resolved. Restarting collection only establishes recovery of the feed from that point onward. |
+
+No inference text was edited. The published JSON matches the workflow artifact. Each verdict in the separate review binds to the raw completion’s SHA-256. Six scenarios do not support a performance estimate for incident response in production. These errors are the reason raw drafts remain behind a reviewer-controlled comparison.
+
 ## Worked reviewer checks
 
 The following deliberately constructed examples exercise the verification logic. The recorded model outputs are in the linked snapshot.
