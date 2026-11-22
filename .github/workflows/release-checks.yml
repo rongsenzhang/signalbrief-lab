@@ -1,0 +1,40 @@
+name: Release checks
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Rebuild and check published cases
+        run: |
+          python scripts/build_demo.py
+          python scripts/contract_examples.py
+          git diff --exit-code -- docs/data/scenarios.json docs/data/contract-examples.json
+          python -m unittest discover -s tests -v
+      - name: Validate shipped model results for a version tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          python scripts/llm_evidence.py --validate --output docs/data/language-model.json
+          python scripts/handover_drafts.py --validate --output docs/data/handover-drafts.json
+      - name: Reproduce routing coverage on pinned public templates
+        run: python scripts/corpus_check.py --check
+      - name: Install browser for interface checks
+        run: |
+          python -m pip install playwright==1.56.0
+          python -m playwright install --with-deps chromium
+      - name: Check delivery on desktop and mobile viewports
+        run: |
+          python scripts/workbench_smoke.py
+          python scripts/integration_smoke.py
