@@ -64,11 +64,14 @@ def handler_for(token):
                 return self.reply(200, {"status": "ok", "version": "1.0.0"})
             return self.reply(404, {"error": "Unknown route."})
 
+        def authorised(self):
+            auth = self.headers.get_all("Authorization", [])
+            return len(auth) == 1 and hmac.compare_digest(auth[0].encode("latin-1"), expected)
+
         def do_POST(self):
             if self.path != "/v1/triage":
                 return self.reply(404, {"error": "Unknown route."})
-            auth = self.headers.get_all("Authorization", [])
-            if len(auth) != 1 or not hmac.compare_digest(auth[0].encode("latin-1"), expected):
+            if not self.authorised():
                 return self.reply(401, {"error": "A valid bearer token is required."})
             if len(self.headers.get_all("Content-Type", [])) != 1 or self.headers.get_content_type() != "application/json":
                 return self.reply(415, {"error": "Use application/json."})

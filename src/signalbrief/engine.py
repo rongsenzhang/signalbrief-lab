@@ -163,15 +163,7 @@ def triage(scope, rows):
         window = [(t, row) for t, row in window if (instant - t).total_seconds() <= WINDOW_SECONDS]
         window.append((instant, event))
         events.append(event)
-        key, evidence = decide([row for _, row in window])
-        if persistent is not None:
-            # Preserve a human review gate while including newer contradictory evidence
-            # only when the two findings concern the same synthetic session.
-            if key == "identity_conflict" and evidence[0]["id"] == persistent[1][0]["id"]:
-                persistent = key, evidence
-            key, evidence = persistent
-        elif RUBRIC[key][0] == "High":
-            persistent = key, evidence
+        key, evidence, persistent = review_finding([row for _, row in window], persistent)
         priority, reason, manager, unknown, next_step = RUBRIC[key]
         model = router().predict(event["text"])
         evidence_ids = [row["id"] for row in evidence]
@@ -181,3 +173,16 @@ def triage(scope, rows):
                        "unknown": unknown, "next_step": next_step, "evidence_ids": evidence_ids,
                        "model": model, "rule": key})
     return {"events": events, "frames": frames}
+
+
+def review_finding(window, persistent):
+    """Apply the same corroboration and escalation rules to batch or streaming input."""
+    key, evidence = decide(window)
+    if persistent is not None:
+        # A latched finding can gain conflicting reports about that specific session.
+        if key == "identity_conflict" and evidence[0]["id"] == persistent[1][0]["id"]:
+            persistent = key, evidence
+        key, evidence = persistent
+    elif RUBRIC[key][0] == "High":
+        persistent = key, evidence
+    return key, evidence, persistent
